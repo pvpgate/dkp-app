@@ -18,7 +18,7 @@ async def start(message: Message):
         inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text="Открыть",
+                    text="Открыть прил",
                     web_app=WebAppInfo(
                         url="https://your-app-url.com"
                     )
