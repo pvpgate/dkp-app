@@ -23,7 +23,7 @@ async def start(message: Message):
                 InlineKeyboardButton(
                     text="Открыть",
                     web_app=WebAppInfo(
-                        url="https://your-app-url.com"
+                        url="https://dkp-app.vercel.app/"
                     )
                 )
             ]
