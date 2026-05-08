@@ -24,6 +24,16 @@ CREATE TABLE IF NOT EXISTS users (
 
 conn.commit()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+class AuthRequest(BaseModel):
+    initData: str
 
 @app.post("/auth/telegram")
 async def auth(data: AuthRequest):
@@ -37,18 +47,6 @@ async def auth(data: AuthRequest):
         "ok": True,
         "user": user_data
     }
-
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-class AuthRequest(BaseModel):
-    initData: str
 
 @app.post("/auth/telegram")
 async def auth(data: AuthRequest):
