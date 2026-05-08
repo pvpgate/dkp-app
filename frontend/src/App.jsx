@@ -15,6 +15,18 @@ function App() {
 
     const u = tg.initDataUnsafe?.user;
     setUser(u);
+
+    if (u) {
+      fetch("https://YOUR_BACKEND_URL/auth/telegram", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          initData: tg.initData
+        })
+      });
+    }
   }, []);
 
   return (
