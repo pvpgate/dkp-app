@@ -17,7 +17,7 @@ function App() {
     setUser(u);
 
     if (u) {
-      fetch("https://YOUR_BACKEND_URL/auth/telegram", {
+      fetch("https://generous-joy-production-87dc.up.railway.app/auth/telegram", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
