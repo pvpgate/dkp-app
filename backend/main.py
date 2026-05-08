@@ -3,6 +3,8 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import os
 import psycopg2
+import json
+from urllib.parse import parse_qsl
 
 app = FastAPI()
 
@@ -21,7 +23,21 @@ CREATE TABLE IF NOT EXISTS users (
 """)
 
 conn.commit()
-print("USERS TABLE CREATED OR ALREADY EXISTS")
+
+
+@app.post("/auth/telegram")
+async def auth(data: AuthRequest):
+    parsed = dict(parse_qsl(data.initData))
+
+    user_data = json.loads(parsed["user"])
+
+    print("USER:", user_data)
+
+    return {
+        "ok": True,
+        "user": user_data
+    }
+
 
 app.add_middleware(
     CORSMiddleware,
