@@ -11,6 +11,18 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 conn = psycopg2.connect(DATABASE_URL)
 cur = conn.cursor()
 
+cur.execute("""
+CREATE TABLE IF NOT EXISTS users (
+    telegram_id BIGINT PRIMARY KEY,
+    username TEXT,
+    first_name TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
+)
+""")
+
+conn.commit()
+print("USERS TABLE CREATED OR ALREADY EXISTS")
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
