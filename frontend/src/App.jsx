@@ -36,8 +36,6 @@ function App() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h1>Mini App</h1>
-
       {user ? (
         <div>
           <h2>Добро пожаловать, {user.first_name}</h2>
