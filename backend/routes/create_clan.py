@@ -51,13 +51,14 @@ async def create_clan(data: CreateClanRequest):
     clan_id = clan[0]
 
     cur.execute("""
-    INSERT INTO clan_members (clan_id, user_telegram_id, role)
-    VALUES (%s, %s, %s)
+    INSERT INTO clan_members (clan_id, user_telegram_id, role, dkp)
+    VALUES (%s, %s, %s, %s)
     ON CONFLICT (clan_id, user_telegram_id) DO NOTHING
     """, (
         clan_id,
         user_id,
-        "leader"
+        "leader",
+        0
     ))
 
     conn.commit()
