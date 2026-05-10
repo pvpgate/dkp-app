@@ -26,10 +26,10 @@ function MyClans({ initData }) {
 
   return (
     <div style={{ marginTop: 20 }}>
-      <h2>My clans</h2>
+      <h2>Ваши кланы:</h2>
 
       {clans.length === 0 ? (
-        <p>You are not in any clans yet</p>
+        <p>Вы еще не состоите ни в одном клане</p>
       ) : (
         clans.map((clan) => (
           <div key={clan.id} style={{ marginBottom: 12 }}>

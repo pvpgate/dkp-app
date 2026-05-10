@@ -40,9 +40,7 @@ function App() {
 
       {user ? (
         <div>
-          <p>ID: {user.id}</p>
-          <p>Name: {user.first_name}</p>
-          <p>Username: @{user.username}</p>
+          <h2>Добро пожаловать, {user.first_name}</h2>
 
           <MyClans initData={initData} />
 
