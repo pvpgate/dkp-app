@@ -1,10 +1,9 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-import os
-import psycopg2
 import json
 from urllib.parse import parse_qsl
+from db import conn, cur
 
 app = FastAPI()
 
@@ -16,21 +15,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-
-conn = psycopg2.connect(DATABASE_URL)
-cur = conn.cursor()
-
-cur.execute("""
-CREATE TABLE IF NOT EXISTS users (
-    telegram_id BIGINT PRIMARY KEY,
-    username TEXT,
-    first_name TEXT,
-    premium_until TIMESTAMP DEFAULT NULL,
-    created_at TIMESTAMP DEFAULT NOW()
-)
-""")
-conn.commit()
 
 
 class AuthRequest(BaseModel):
