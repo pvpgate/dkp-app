@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS users (
     telegram_id BIGINT PRIMARY KEY,
     username TEXT,
     first_name TEXT,
+    premium_until TIMESTAMP DEFAULT NULL,
     created_at TIMESTAMP DEFAULT NOW()
 )
 """)
