@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import CreateClan from "./components/CreateClan";
+import MyClans from "./components/MyClans";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -42,6 +43,8 @@ function App() {
           <p>ID: {user.id}</p>
           <p>Name: {user.first_name}</p>
           <p>Username: @{user.username}</p>
+
+          <MyClans initData={initData} />
 
           <CreateClan initData={initData} />
         </div>
