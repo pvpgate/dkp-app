@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import CreateClan from "./components/CreateClan";
 
 function App() {
   const [user, setUser] = useState(null);
+  const [initData, setInitData] = useState("");
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
@@ -12,6 +14,8 @@ function App() {
     }
 
     tg.ready();
+
+    setInitData(tg.initData);
 
     const u = tg.initDataUnsafe?.user;
     setUser(u);
@@ -38,6 +42,8 @@ function App() {
           <p>ID: {user.id}</p>
           <p>Name: {user.first_name}</p>
           <p>Username: @{user.username}</p>
+
+          <CreateClan initData={initData} />
         </div>
       ) : (
         <p>No Telegram user (open inside Telegram)</p>
