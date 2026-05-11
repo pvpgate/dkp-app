@@ -92,7 +92,14 @@ function ClanPage({ initData }) {
             placeholder="Название клана"
           />
 
-          <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
+          <div
+            style={{
+                display: "flex",
+                gap: 8,
+                marginTop: 12,
+                justifyContent: "center",
+            }}
+          >
             <button onClick={handleDeleteClan}>
               Удалить
             </button>
