@@ -40,6 +40,21 @@ function MyClans({ initData }) {
             <div>
               Members: {clan.members_count} | DKP: {clan.dkp}
             </div>
+
+            <div style={{ marginTop: 6 }}>
+            {(clan.role === "leader" || clan.role === "officer") && (
+                <button>
+                Manage
+                </button>
+            )}
+
+            {(clan.role === "member" || clan.role === "officer") && (
+                <button style={{ marginLeft: 8 }}>
+                Leave clan
+                </button>
+            )}
+            </div>
+
           </div>
         ))
       )}
