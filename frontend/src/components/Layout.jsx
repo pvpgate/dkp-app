@@ -3,7 +3,7 @@ function Layout({ children }) {
     <div
       style={{
         padding: 20,
-        paddingTop: 80,
+        paddingTop: 100,
         minHeight: "100vh",
         boxSizing: "border-box",
       }}
