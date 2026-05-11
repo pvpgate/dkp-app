@@ -56,7 +56,14 @@ function CreateClan({ initData, onClanCreated }) {
             />
           </div>
 
-          <div style={{ display: "flex", gap: 8 }}>
+          <div
+            style={{
+              display: "flex",
+              gap: 8,
+              justifyContent: "center",
+              marginTop: 12,
+            }}
+          >
             <button onClick={handleCreateClan}>
               Создать
             </button>
