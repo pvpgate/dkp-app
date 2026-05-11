@@ -2,13 +2,17 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getClan } from "../api/getClan";
 
-function ClanPage() {
+function ClanPage({ initData }) {
   const { clanId } = useParams();
   const [clan, setClan] = useState(null);
 
   useEffect(() => {
+    if (!initData) return;
+
     async function loadClan() {
       const result = await getClan(clanId, initData);
+
+      console.log("GET CLAN RESULT:", result);
 
       if (result.ok) {
         setClan(result.clan);
@@ -16,7 +20,7 @@ function ClanPage() {
     }
 
     loadClan();
-  }, [clanId]);
+  }, [clanId, initData]);
 
   return (
     <div style={{ padding: 20 }}>
@@ -32,9 +36,11 @@ function ClanPage() {
           {clan ? clan.name : "Loading..."}
         </h1>
 
-        <button>
-          Delete clan
-        </button>
+        {clan?.role === "leader" && (
+          <button>
+            Delete clan
+          </button>
+        )}
       </div>
 
       <h2>Members</h2>
