@@ -48,7 +48,7 @@ function MyClans({ initData, refreshKey }) {
           >
             <div>
               <div>
-                {roleIcon(clan.role)} <b>{clan.name}</b>
+                {roleIcon(clan.role)} <b>{clan.name}</b> #{clan.public_id}
               </div>
 
               <div>
@@ -56,14 +56,7 @@ function MyClans({ initData, refreshKey }) {
               </div>
             </div>
 
-            <div
-            style={{
-                display: "flex",
-                gap: 8,
-                justifyContent: "center",
-                marginTop: 12,
-            }}
-            >
+            <div style={{ display: "flex", gap: 8 }}>
               {(clan.role === "leader" || clan.role === "officer") && (
                 <button onClick={() => navigate(`/clan/${clan.id}`)}>
                   Manage
