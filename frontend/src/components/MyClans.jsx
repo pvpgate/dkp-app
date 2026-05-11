@@ -32,29 +32,42 @@ function MyClans({ initData }) {
         <p>Вы еще не состоите ни в одном клане</p>
       ) : (
         clans.map((clan) => (
-          <div key={clan.id} style={{ marginBottom: 12 }}>
+          <div
+            key={clan.id}
+            style={{
+              marginBottom: 12,
+              padding: 12,
+              border: "1px solid #ccc",
+              borderRadius: 8,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: 12,
+            }}
+          >
             <div>
-              {roleIcon(clan.role)} <b>{clan.name}</b>
+              <div>
+                {roleIcon(clan.role)} <b>{clan.name}</b>
+              </div>
+
+              <div>
+                Members: {clan.members_count} | DKP: {clan.dkp}
+              </div>
             </div>
 
-            <div>
-              Members: {clan.members_count} | DKP: {clan.dkp}
-            </div>
-
-            <div style={{ marginTop: 6 }}>
-            {(clan.role === "leader" || clan.role === "officer") && (
+            <div style={{ display: "flex", gap: 8 }}>
+              {(clan.role === "leader" || clan.role === "officer") && (
                 <button>
-                Manage
+                  Manage
                 </button>
-            )}
+              )}
 
-            {(clan.role === "member" || clan.role === "officer") && (
-                <button style={{ marginLeft: 8 }}>
-                Leave clan
+              {(clan.role === "member" || clan.role === "officer") && (
+                <button>
+                  Leave
                 </button>
-            )}
+              )}
             </div>
-
           </div>
         ))
       )}
