@@ -40,8 +40,15 @@ CREATE TABLE IF NOT EXISTS clan_members (
 """)
 
 cur.execute("""
-ALTER TABLE clan_members
-ADD COLUMN IF NOT EXISTS game_nickname TEXT
+CREATE TABLE IF NOT EXISTS clan_requests (
+    id SERIAL PRIMARY KEY,
+    clan_id INTEGER NOT NULL REFERENCES clans(id),
+    user_telegram_id BIGINT NOT NULL REFERENCES users(telegram_id),
+    game_nickname TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE (clan_id, user_telegram_id)
+)
 """)
 
 conn.commit()
