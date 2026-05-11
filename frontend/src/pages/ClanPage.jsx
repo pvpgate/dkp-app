@@ -42,7 +42,7 @@ function ClanPage({ initData }) {
 
   return (
     <Layout>
-      <div style={{ marginBottom: 12 }}>
+      <div style={{marginBottom: 12, display: "flex", justifyContent: "flex-start",}}>
         <Link
           to="/"
           style={{
