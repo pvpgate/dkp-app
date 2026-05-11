@@ -56,7 +56,14 @@ function MyClans({ initData, refreshKey }) {
               </div>
             </div>
 
-            <div style={{ display: "flex", gap: 8 }}>
+            <div
+            style={{
+                display: "flex",
+                gap: 8,
+                justifyContent: "center",
+                marginTop: 12,
+            }}
+            >
               {(clan.role === "leader" || clan.role === "officer") && (
                 <button onClick={() => navigate(`/clan/${clan.id}`)}>
                   Manage
