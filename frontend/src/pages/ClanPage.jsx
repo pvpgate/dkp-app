@@ -42,6 +42,17 @@ function ClanPage({ initData }) {
 
   return (
     <Layout>
+      <div style={{ marginBottom: 12 }}>
+        <Link
+          to="/"
+          style={{
+            textDecoration: "none",
+          }}
+        >
+          ← Back
+        </Link>
+      </div>
+
       <div
         style={{
           display: "flex",
@@ -50,22 +61,9 @@ function ClanPage({ initData }) {
           marginBottom: 20,
         }}
       >
-        <div>
-          <Link
-            to="/"
-            style={{
-              display: "block",
-              marginBottom: 6,
-              textDecoration: "none",
-            }}
-          >
-            ← Back
-          </Link>
-
-          <h1 style={{ margin: 0 }}>
-            {clan ? clan.name : "Loading..."}
-          </h1>
-        </div>
+        <h1 style={{ margin: 0 }}>
+          {clan ? clan.name : "Loading..."}
+        </h1>
 
         {clan?.role === "leader" && (
           <button onClick={() => setShowDeleteConfirm(true)}>
