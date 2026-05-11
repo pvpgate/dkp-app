@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createClan } from "../api/clans";
 
-function CreateClan({ initData }) {
+function CreateClan({ initData, onClanCreated }) {
   const [clanName, setClanName] = useState("");
   const [createdClan, setCreatedClan] = useState(null);
   const [error, setError] = useState("");
@@ -20,6 +20,7 @@ function CreateClan({ initData }) {
 
     setCreatedClan(result.clan);
     setClanName("");
+    onClanCreated();
   }
 
   return (
