@@ -4,12 +4,20 @@ import MyClans from "./components/MyClans";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ClanPage from "./pages/ClanPage";
 
-function HomePage({ user, initData }) {
+function HomePage({
+  user,
+  initData,
+  clansRefreshKey,
+  setClansRefreshKey
+}) {
   return (
     <div style={{ padding: 20 }}>
       <h2>Добро пожаловать, {user.first_name}</h2>
 
-      <MyClans initData={initData} />
+      <MyClans
+        initData={initData}
+        refreshKey={clansRefreshKey}
+      />
 
       <CreateClan
         initData={initData}
