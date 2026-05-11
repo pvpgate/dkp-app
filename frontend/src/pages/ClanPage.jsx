@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getClan } from "../api/getClan";
 import { deleteClan } from "../api/deleteClan";
 import Layout from "../components/Layout";
@@ -42,6 +42,12 @@ function ClanPage({ initData }) {
 
   return (
     <Layout>
+      <div style={{ marginBottom: 20 }}>
+        <Link to="/">
+            ← Back
+        </Link>
+      </div>
+    
       <div
         style={{
           display: "flex",
