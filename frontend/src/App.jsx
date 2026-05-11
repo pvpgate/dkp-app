@@ -11,7 +11,7 @@ function HomePage({
   setClansRefreshKey
 }) {
   return (
-    <div style={{ padding: 20 }}>
+    <div style={{padding: 20,paddingTop: 60,}}>
       <h2>Добро пожаловать, {user.first_name}</h2>
 
       <MyClans
@@ -64,7 +64,12 @@ function App() {
 
   if (!user) {
     return (
-      <div style={{ padding: 20 }}>
+      <div
+        style={{
+          padding: 20,
+          paddingTop: 60,
+        }}
+      >
         <p>No Telegram user (open inside Telegram)</p>
       </div>
     );

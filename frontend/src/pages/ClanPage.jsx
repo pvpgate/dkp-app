@@ -40,7 +40,7 @@ function ClanPage({ initData }) {
   }
 
   return (
-    <div style={{ padding: 20 }}>
+    <div style={{padding: 20,paddingTop: 60,}}>
       <div
         style={{
           display: "flex",
