@@ -31,11 +31,17 @@ CREATE TABLE IF NOT EXISTS clan_members (
     id SERIAL PRIMARY KEY,
     clan_id INTEGER NOT NULL REFERENCES clans(id),
     user_telegram_id BIGINT NOT NULL REFERENCES users(telegram_id),
+    game_nickname TEXT,
     role TEXT NOT NULL,
     dkp INTEGER NOT NULL DEFAULT 0,
     joined_at TIMESTAMP DEFAULT NOW(),
     UNIQUE (clan_id, user_telegram_id)
 )
+""")
+
+cur.execute("""
+ALTER TABLE clan_members
+ADD COLUMN IF NOT EXISTS game_nickname TEXT
 """)
 
 conn.commit()
