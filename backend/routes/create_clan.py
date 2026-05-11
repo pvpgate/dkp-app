@@ -25,10 +25,10 @@ async def create_clan(data: CreateClanRequest):
     user_id = user_data["id"]
 
     if not data.name.isalnum():
-    return {
-        "ok": False,
-        "error": "Имя клана может содержать только буквы и цифры"
-    }
+        return {
+            "ok": False,
+            "error": "Имя клана может содержать только буквы и цифры"
+        }
 
     if len(data.name) < 2 or len(data.name) > 16:
         return {
