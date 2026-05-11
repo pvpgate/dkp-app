@@ -8,7 +8,7 @@ function roleIcon(role) {
   return "👤";
 }
 
-function MyClans({ initData }) {
+function MyClans({ initData, refreshKey }) {
   const [clans, setClans] = useState([]);
   const navigate = useNavigate();
 
@@ -24,7 +24,7 @@ function MyClans({ initData }) {
     }
 
     loadClans();
-  }, [initData]);
+  }, [initData, refreshKey]);
 
   return (
     <div style={{ marginTop: 20 }}>

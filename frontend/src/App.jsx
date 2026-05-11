@@ -11,7 +11,12 @@ function HomePage({ user, initData }) {
 
       <MyClans initData={initData} />
 
-      <CreateClan initData={initData} />
+      <CreateClan
+        initData={initData}
+        onClanCreated={() =>
+          setClansRefreshKey((prev) => prev + 1)
+        }
+      />
     </div>
   );
 }
@@ -19,6 +24,7 @@ function HomePage({ user, initData }) {
 function App() {
   const [user, setUser] = useState(null);
   const [initData, setInitData] = useState("");
+  const [clansRefreshKey, setClansRefreshKey] = useState(0);
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
@@ -61,7 +67,14 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<HomePage user={user} initData={initData} />}
+          element={
+            <HomePage
+              user={user}
+              initData={initData}
+              clansRefreshKey={clansRefreshKey}
+              setClansRefreshKey={setClansRefreshKey}
+            />
+          }
         />
 
         <Route
