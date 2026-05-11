@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { getClan } from "../api/getClan";
 import { deleteClan } from "../api/deleteClan";
 import Layout from "../components/Layout";
+import ClanMembers from "../components/ClanMembers";
 
 function ClanPage({ initData }) {
   const { clanId } = useParams();
@@ -113,9 +114,10 @@ function ClanPage({ initData }) {
         </div>
       )}
 
-      <h2>Members</h2>
-
-      <p>Members list will be here</p>
+      <ClanMembers
+        clanId={clanId}
+        initData={initData}
+      />
     </Layout>
   );
 }
