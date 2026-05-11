@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getMyClans } from "../api/myClans";
+import { useNavigate } from "react-router-dom";
 
 function roleIcon(role) {
   if (role === "leader") return "👑";
@@ -9,6 +10,7 @@ function roleIcon(role) {
 
 function MyClans({ initData }) {
   const [clans, setClans] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!initData) return;
@@ -57,7 +59,7 @@ function MyClans({ initData }) {
 
             <div style={{ display: "flex", gap: 8 }}>
               {(clan.role === "leader" || clan.role === "officer") && (
-                <button>
+                <button onClick={() => navigate(`/clan/${clan.id}`)}>
                   Manage
                 </button>
               )}

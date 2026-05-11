@@ -1,6 +1,20 @@
 import { useEffect, useState } from "react";
 import CreateClan from "./components/CreateClan";
 import MyClans from "./components/MyClans";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ClanPage from "./pages/ClanPage";
+
+function HomePage({ user, initData }) {
+  return (
+    <div style={{ padding: 20 }}>
+      <h2>Добро пожаловать, {user.first_name}</h2>
+
+      <MyClans initData={initData} />
+
+      <CreateClan initData={initData} />
+    </div>
+  );
+}
 
 function App() {
   const [user, setUser] = useState(null);
@@ -34,20 +48,28 @@ function App() {
     }
   }, []);
 
-  return (
-    <div style={{ padding: 20 }}>
-      {user ? (
-        <div>
-          <h2>Добро пожаловать, {user.first_name}</h2>
-
-          <MyClans initData={initData} />
-
-          <CreateClan initData={initData} />
-        </div>
-      ) : (
+  if (!user) {
+    return (
+      <div style={{ padding: 20 }}>
         <p>No Telegram user (open inside Telegram)</p>
-      )}
-    </div>
+      </div>
+    );
+  }
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={<HomePage user={user} initData={initData} />}
+        />
+
+        <Route
+          path="/clan/:clanId"
+          element={<ClanPage initData={initData} />}
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
