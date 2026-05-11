@@ -8,7 +8,7 @@ function ClanPage() {
 
   useEffect(() => {
     async function loadClan() {
-      const result = await getClan(clanId);
+      const result = await getClan(clanId, initData);
 
       if (result.ok) {
         setClan(result.clan);
