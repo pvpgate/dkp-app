@@ -4,16 +4,22 @@ import { createClan } from "../api/clans";
 function CreateClan({ initData }) {
   const [clanName, setClanName] = useState("");
   const [createdClan, setCreatedClan] = useState(null);
+  const [error, setError] = useState("");
 
   async function handleCreateClan() {
+    setError("");
+
     const result = await createClan(initData, clanName);
 
     console.log("CLAN CREATED:", result);
 
-    if (result.ok) {
-      setCreatedClan(result.clan);
-      setClanName("");
+    if (!result.ok) {
+      setError(result.error);
+      return;
     }
+
+    setCreatedClan(result.clan);
+    setClanName("");
   }
 
   return (
@@ -29,6 +35,12 @@ function CreateClan({ initData }) {
       <button onClick={handleCreateClan}>
         Create
       </button>
+
+      {error && (
+        <p style={{ color: "red" }}>
+          {error}
+        </p>
+      )}
 
       {createdClan && (
         <div>
