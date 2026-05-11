@@ -20,6 +20,7 @@ function CreateClan({ initData, onClanCreated }) {
 
     setCreatedClan(result.clan);
     setClanName("");
+
     onClanCreated();
   }
 

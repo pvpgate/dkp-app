@@ -14,7 +14,6 @@ function MyClans({ initData, refreshKey }) {
 
   useEffect(() => {
     if (!initData) return;
-    console.log("LOADING CLANS", refreshKey);
     async function loadClans() {
       const result = await getMyClans(initData);
 
