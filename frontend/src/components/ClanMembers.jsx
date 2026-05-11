@@ -37,6 +37,7 @@ function ClanMembers({ clanId, initData }) {
             style={{
               display: "flex",
               justifyContent: "space-between",
+              alignItems: "center",
               padding: "8px 0",
               borderBottom: "1px solid #ddd",
             }}
@@ -45,8 +46,20 @@ function ClanMembers({ clanId, initData }) {
               {roleIcon(member.role)} {member.game_nickname}
             </div>
 
-            <div>
-              DKP: {member.dkp}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+              }}
+            >
+              <div>
+                DKP: {member.dkp}
+              </div>
+
+              <button>
+                ⚙️
+              </button>
             </div>
           </div>
         ))
