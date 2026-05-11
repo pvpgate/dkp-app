@@ -4,8 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from routes.auth import router as auth_router
 from routes.create_clan import router as create_clan_router
 from routes.my_clans import router as my_clans_router
-
 from routes.get_clan import router as get_clan_router
+from routes.delete_clan import router as delete_clan_router
 
 app = FastAPI()
 
@@ -21,3 +21,4 @@ app.include_router(auth_router)
 app.include_router(create_clan_router)
 app.include_router(my_clans_router)
 app.include_router(get_clan_router)
+app.include_router(delete_clan_router)
