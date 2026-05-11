@@ -3,6 +3,7 @@ import CreateClan from "./components/CreateClan";
 import MyClans from "./components/MyClans";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ClanPage from "./pages/ClanPage";
+import Layout from "./components/Layout";
 
 function HomePage({
   user,
@@ -11,7 +12,7 @@ function HomePage({
   setClansRefreshKey
 }) {
   return (
-    <div style={{padding: 20,paddingTop: 20,}}>
+    <Layout>
       <h2>Добро пожаловать, {user.first_name}</h2>
 
       <MyClans
@@ -25,7 +26,7 @@ function HomePage({
           setClansRefreshKey((prev) => prev + 1)
         }
       />
-    </div>
+    </Layout>
   );
 }
 
@@ -64,9 +65,9 @@ function App() {
 
   if (!user) {
     return (
-      <div style={{padding: 20, paddingTop: 20,}}>
+      <Layout>
         <p>No Telegram user (open inside Telegram)</p>
-      </div>
+      </Layout>
     );
   }
 

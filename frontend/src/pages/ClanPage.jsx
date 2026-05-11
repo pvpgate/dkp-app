@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getClan } from "../api/getClan";
 import { deleteClan } from "../api/deleteClan";
+import Layout from "../components/Layout";
 
 function ClanPage({ initData }) {
   const { clanId } = useParams();
@@ -40,7 +41,7 @@ function ClanPage({ initData }) {
   }
 
   return (
-    <div style={{padding: 20,paddingTop: 40,}}>
+    <Layout>
       <div
         style={{
           display: "flex",
@@ -97,7 +98,7 @@ function ClanPage({ initData }) {
       <h2>Members</h2>
 
       <p>Members list will be here</p>
-    </div>
+    </Layout>
   );
 }
 
