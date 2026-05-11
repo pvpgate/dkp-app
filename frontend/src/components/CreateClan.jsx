@@ -2,53 +2,75 @@ import { useState } from "react";
 import { createClan } from "../api/clans";
 
 function CreateClan({ initData, onClanCreated }) {
+  const [showForm, setShowForm] = useState(false);
   const [clanName, setClanName] = useState("");
-  const [createdClan, setCreatedClan] = useState(null);
+  const [gameNickname, setGameNickname] = useState("");
   const [error, setError] = useState("");
 
   async function handleCreateClan() {
     setError("");
 
-    const result = await createClan(initData, clanName);
-
-    console.log("CLAN CREATED:", result);
+    const result = await createClan(initData, clanName, gameNickname);
 
     if (!result.ok) {
       setError(result.error);
       return;
     }
 
-    setCreatedClan(result.clan);
     setClanName("");
-
+    setGameNickname("");
+    setShowForm(false);
     onClanCreated();
   }
 
   return (
     <div style={{ marginTop: 20 }}>
-      <h2>Create clan</h2>
-
-      <input
-        value={clanName}
-        onChange={(e) => setClanName(e.target.value)}
-        placeholder="Clan name"
-      />
-
-      <button onClick={handleCreateClan}>
-        Create
+      <button onClick={() => setShowForm(true)}>
+        Создать клан
       </button>
 
-      {error && (
-        <p style={{ color: "red" }}>
-          {error}
-        </p>
-      )}
+      {showForm && (
+        <div
+          style={{
+            border: "1px solid #ccc",
+            borderRadius: 8,
+            padding: 12,
+            marginTop: 12,
+          }}
+        >
+          <p>Введите название клана и свой игровой ник</p>
 
-      {createdClan && (
-        <div>
-          <p>Created clan:</p>
-          <p>{createdClan.name}</p>
-          <p>ID: {createdClan.public_id}</p>
+          <div style={{ marginBottom: 8 }}>
+            <input
+              value={clanName}
+              onChange={(e) => setClanName(e.target.value)}
+              placeholder="Название клана"
+            />
+          </div>
+
+          <div style={{ marginBottom: 8 }}>
+            <input
+              value={gameNickname}
+              onChange={(e) => setGameNickname(e.target.value)}
+              placeholder="Игровой ник"
+            />
+          </div>
+
+          <div style={{ display: "flex", gap: 8 }}>
+            <button onClick={handleCreateClan}>
+              Создать
+            </button>
+
+            <button onClick={() => setShowForm(false)}>
+              Отмена
+            </button>
+          </div>
+
+          {error && (
+            <p style={{ color: "red" }}>
+              {error}
+            </p>
+          )}
         </div>
       )}
     </div>
