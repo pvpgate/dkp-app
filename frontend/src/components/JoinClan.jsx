@@ -18,6 +18,8 @@ function JoinClan({ initData }) {
       gameNickname
     );
 
+    alert(JSON.stringify(result));
+
     if (!result.ok) {
       setError(result.error);
       return;
@@ -30,7 +32,7 @@ function JoinClan({ initData }) {
   }
 
   return (
-    <div style={{ marginTop: 20 }}>
+    <div>
       <button onClick={() => setShowForm(true)}>
         Вступить в клан
       </button>
