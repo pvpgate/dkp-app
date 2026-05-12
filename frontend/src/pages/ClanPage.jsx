@@ -4,6 +4,7 @@ import { getClan } from "../api/getClan";
 import { deleteClan } from "../api/deleteClan";
 import Layout from "../components/Layout";
 import ClanMembers from "../components/ClanMembers";
+import ClanRequests from "../components/ClanRequests";
 
 function ClanPage({ initData }) {
   const { clanId } = useParams();
@@ -146,10 +147,10 @@ function ClanPage({ initData }) {
       )}
 
       {activeTab === "requests" && (
-        <div>
-          <h2>Заявки</h2>
-          <p>Список заявок будет здесь</p>
-        </div>
+        <ClanRequests
+          clanId={clanId}
+          initData={initData}
+        />
       )}
     </Layout>
   );
