@@ -15,6 +15,7 @@ class JoinClanRequest(BaseModel):
 
 @router.post("/clans/join-request")
 async def join_clan_request(data: JoinClanRequest):
+    print("JOIN REQUEST HIT")
     parsed = dict(parse_qsl(data.initData))
     user_data = json.loads(parsed["user"])
     user_id = user_data["id"]
