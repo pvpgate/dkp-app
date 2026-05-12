@@ -20,7 +20,7 @@ export async function sendJoinClanRequest(initData, publicId, gameNickname) {
 
     return {
       ok: false,
-      error: "Ошибка запроса. Проверь данные и попробуй сноваfffffddddf.",
+      error: JSON.stringify(result),
     };
   }
 
