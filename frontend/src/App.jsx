@@ -21,14 +21,23 @@ function HomePage({
         refreshKey={clansRefreshKey}
       />
 
-      <CreateClan
-        initData={initData}
-        onClanCreated={() =>
-          setClansRefreshKey((prev) => prev + 1)
-        }
-      />
+      <div
+        style={{
+          display: "flex",
+          gap: 12,
+          marginTop: 20,
+          flexWrap: "wrap",
+        }}
+      >
+        <JoinClan initData={initData} />
 
-      <JoinClan initData={initData} />
+        <CreateClan
+          initData={initData}
+          onClanCreated={() =>
+            setClansRefreshKey((prev) => prev + 1)
+          }
+        />
+      </div>
     </Layout>
   );
 }
