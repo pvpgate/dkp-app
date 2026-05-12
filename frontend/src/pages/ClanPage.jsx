@@ -143,6 +143,7 @@ function ClanPage({ initData }) {
         <ClanMembers
           clanId={clanId}
           initData={initData}
+          currentUserRole={clan?.role}
         />
       )}
 

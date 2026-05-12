@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getClanMembers } from "../api/clanMembers";
 
 function roleIcon(role) {
@@ -7,8 +8,9 @@ function roleIcon(role) {
   return "👤";
 }
 
-function ClanMembers({ clanId, initData }) {
+function ClanMembers({ clanId, initData, currentUserRole }) {
   const [members, setMembers] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!initData || !clanId) return;
@@ -57,9 +59,15 @@ function ClanMembers({ clanId, initData }) {
                 DKP: {member.dkp}
               </div>
 
-              <button>
-                ⚙️
-              </button>
+              {(currentUserRole === "leader" || currentUserRole === "officer") && (
+                <button
+                  onClick={() =>
+                    navigate(`/clan/${clanId}/member/${member.user_telegram_id}`)
+                  }
+                >
+                  ⚙️
+                </button>
+              )}
             </div>
           </div>
         ))
