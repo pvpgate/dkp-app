@@ -45,7 +45,7 @@ function MyRequests({ initData }) {
               </div>
 
               <div>
-                Ник: {request.game_nickname} | Статус: {request.status}
+                Ник: {request.game_nickname}
               </div>
             </div>
 
