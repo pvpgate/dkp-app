@@ -29,23 +29,29 @@ function MyRequests({ initData }) {
           <div
             key={request.id}
             style={{
+              marginBottom: 12,
               padding: 12,
               border: "1px solid #ccc",
               borderRadius: 8,
-              marginBottom: 12,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: 12,
             }}
           >
             <div>
-              <b>{request.clan_name}</b> #{request.clan_public_id}
+              <div>
+                <b>{request.clan_name}</b> #{request.clan_public_id}
+              </div>
+
+              <div>
+                Ник: {request.game_nickname} | Статус: {request.status}
+              </div>
             </div>
 
-            <div>
-              Ник: {request.game_nickname}
-            </div>
-
-            <div>
-              Статус: {request.status}
-            </div>
+            <button>
+              Отменить заявку
+            </button>
           </div>
         ))
       )}
