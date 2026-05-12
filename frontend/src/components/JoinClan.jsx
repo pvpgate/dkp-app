@@ -18,7 +18,6 @@ function JoinClan({ initData }) {
       gameNickname
     );
 
-    alert(JSON.stringify(result));
 
     if (!result.ok) {
       setError(result.error);
