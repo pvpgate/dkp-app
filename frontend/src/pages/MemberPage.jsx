@@ -42,9 +42,9 @@ function MemberPage({ initData }) {
 
       {member && (
         <div>
+          <p>Joined: {new Date(member.joined_at).toLocaleDateString()}</p>
           <p>Role: {member.role}</p>
           <p>DKP: {member.dkp}</p>
-          <p>Joined: {new Date(member.joined_at).toLocaleDateString()}</p>
         </div>
       )}
     </Layout>
