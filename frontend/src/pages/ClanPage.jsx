@@ -13,6 +13,7 @@ function ClanPage({ initData }) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deleteName, setDeleteName] = useState("");
   const [error, setError] = useState("");
+  const [activeTab, setActiveTab] = useState("members");
 
   useEffect(() => {
     if (!initData) return;
@@ -43,7 +44,13 @@ function ClanPage({ initData }) {
 
   return (
     <Layout>
-      <div style={{marginBottom: 12, display: "flex", justifyContent: "flex-start",}}>
+      <div
+        style={{
+          marginBottom: 12,
+          display: "flex",
+          justifyContent: "flex-start",
+        }}
+      >
         <Link
           to="/"
           style={{
@@ -83,8 +90,9 @@ function ClanPage({ initData }) {
           }}
         >
           <p>
-            Вы уверены что хотите удалить клан {clan.name}? Все участники и накопленные ими ДКП будут удалены. Для удаления
-            напишите название клана.
+            Вы уверены что хотите удалить клан {clan.name}? Все участники и
+            накопленные ими ДКП будут удалены. Для удаления напишите название
+            клана.
           </p>
 
           <input
@@ -95,10 +103,10 @@ function ClanPage({ initData }) {
 
           <div
             style={{
-                display: "flex",
-                gap: 8,
-                marginTop: 12,
-                justifyContent: "center",
+              display: "flex",
+              gap: 8,
+              marginTop: 12,
+              justifyContent: "center",
             }}
           >
             <button onClick={handleDeleteClan}>
@@ -114,10 +122,35 @@ function ClanPage({ initData }) {
         </div>
       )}
 
-      <ClanMembers
-        clanId={clanId}
-        initData={initData}
-      />
+      <div
+        style={{
+          display: "flex",
+          gap: 8,
+          marginBottom: 16,
+        }}
+      >
+        <button onClick={() => setActiveTab("members")}>
+          Мемберы
+        </button>
+
+        <button onClick={() => setActiveTab("requests")}>
+          Заявки
+        </button>
+      </div>
+
+      {activeTab === "members" && (
+        <ClanMembers
+          clanId={clanId}
+          initData={initData}
+        />
+      )}
+
+      {activeTab === "requests" && (
+        <div>
+          <h2>Заявки</h2>
+          <p>Список заявок будет здесь</p>
+        </div>
+      )}
     </Layout>
   );
 }
