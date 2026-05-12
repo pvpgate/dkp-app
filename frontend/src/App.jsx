@@ -24,10 +24,12 @@ function HomePage({
       <div
         style={{
           display: "flex",
-          justifyContent: "column",
+          flexDirection: "column",
           alignItems: "center",
+          justifyContent: "center",
           gap: 12,
           marginTop: 20,
+          width: "100%",
         }}
       >
         <JoinClan initData={initData} />
