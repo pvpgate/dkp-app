@@ -11,7 +11,9 @@ function HomePage({
   user,
   initData,
   clansRefreshKey,
-  setClansRefreshKey
+  setClansRefreshKey,
+  requestsRefreshKey,
+  setRequestsRefreshKey
 }) {
   return (
     <Layout>
@@ -21,7 +23,10 @@ function HomePage({
         initData={initData}
         refreshKey={clansRefreshKey}
       />
-      <MyRequests initData={initData} />
+      <MyRequests
+        initData={initData}
+        refreshKey={requestsRefreshKey}
+      />
 
       <div
         style={{
@@ -34,7 +39,12 @@ function HomePage({
           width: "100%",
         }}
       >
-        <JoinClan initData={initData} />
+        <JoinClan
+          initData={initData}
+          onRequestCreated={() =>
+            setRequestsRefreshKey((prev) => prev + 1)
+          }
+        />
 
         <CreateClan
           initData={initData}
@@ -51,6 +61,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [initData, setInitData] = useState("");
   const [clansRefreshKey, setClansRefreshKey] = useState(0);
+  const [requestsRefreshKey, setRequestsRefreshKey] = useState(0);
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
@@ -99,6 +110,8 @@ function App() {
               initData={initData}
               clansRefreshKey={clansRefreshKey}
               setClansRefreshKey={setClansRefreshKey}
+              requestsRefreshKey={requestsRefreshKey}
+              setRequestsRefreshKey={setRequestsRefreshKey}
             />
           }
         />

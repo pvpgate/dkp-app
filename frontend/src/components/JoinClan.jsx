@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { sendJoinClanRequest } from "../api/joinClanRequest";
 
-function JoinClan({ initData }) {
+function JoinClan({ initData, onRequestCreated }) {
   const [showForm, setShowForm] = useState(false);
   const [publicId, setPublicId] = useState("");
   const [gameNickname, setGameNickname] = useState("");
@@ -18,7 +18,6 @@ function JoinClan({ initData }) {
       gameNickname
     );
 
-
     if (!result.ok) {
       setError(result.error);
       return;
@@ -28,6 +27,8 @@ function JoinClan({ initData }) {
     setGameNickname("");
     setShowForm(false);
     setSuccess("Заявка отправлена");
+
+    onRequestCreated?.();
   }
 
   return (

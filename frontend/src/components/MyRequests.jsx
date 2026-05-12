@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getMyRequests } from "../api/myRequests";
 import { cancelRequest } from "../api/cancelRequest";
 
-function MyRequests({ initData }) {
+function MyRequests({ initData, refreshKey }) {
   const [requests, setRequests] = useState([]);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ function MyRequests({ initData }) {
     }
 
     loadRequests();
-  }, [initData]);
+  }, [initData, refreshKey]);
 
   async function handleCancelRequest(requestId) {
     const result = await cancelRequest(requestId, initData);
