@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getClanRequests } from "../api/clanRequests";
+import { processRequest } from "../api/processRequest";
 
 function ClanRequests({ clanId, initData }) {
   const [requests, setRequests] = useState([]);
@@ -17,6 +18,16 @@ function ClanRequests({ clanId, initData }) {
 
     loadRequests();
   }, [clanId, initData]);
+
+  async function handleProcessRequest(requestId, action) {
+    const result = await processRequest(requestId, initData, action);
+
+    if (result.ok) {
+      setRequests((prev) =>
+        prev.filter((request) => request.id !== requestId)
+      );
+    }
+  }
 
   return (
     <div>
@@ -43,11 +54,11 @@ function ClanRequests({ clanId, initData }) {
             </div>
 
             <div style={{ display: "flex", gap: 8 }}>
-              <button>
+              <button onClick={() => handleProcessRequest(request.id, "accept")}>
                 Принять
               </button>
 
-              <button>
+              <button onClick={() => handleProcessRequest(request.id, "reject")}>
                 Отклонить
               </button>
             </div>

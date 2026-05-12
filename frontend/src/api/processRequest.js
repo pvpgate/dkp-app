@@ -1,0 +1,16 @@
+const API_URL = "https://generous-joy-production-87dc.up.railway.app";
+
+export async function processRequest(requestId, initData, action) {
+  const response = await fetch(`${API_URL}/requests/${requestId}/process`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      initData,
+      action,
+    }),
+  });
+
+  return response.json();
+}
