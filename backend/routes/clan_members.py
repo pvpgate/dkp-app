@@ -37,6 +37,7 @@ async def get_clan_members(clan_id: int, data: ClanMembersRequest):
 
     cur.execute("""
     SELECT
+        user_telegram_id,
         game_nickname,
         role,
         dkp
@@ -56,9 +57,10 @@ async def get_clan_members(clan_id: int, data: ClanMembersRequest):
     members = []
     for row in rows:
         members.append({
-            "game_nickname": row[0],
-            "role": row[1],
-            "dkp": row[2],
+            "user_telegram_id": row[0],
+            "game_nickname": row[1],
+            "role": row[2],
+            "dkp": row[3],
         })
 
     return {
