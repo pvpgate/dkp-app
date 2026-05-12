@@ -24,6 +24,8 @@ function HomePage({
       <div
         style={{
           display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
           gap: 12,
           marginTop: 20,
           flexWrap: "wrap",
