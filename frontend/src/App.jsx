@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ClanPage from "./pages/ClanPage";
 import Layout from "./components/Layout";
 import JoinClan from "./components/JoinClan";
+import MyRequests from "./components/MyRequests";
 
 function HomePage({
   user,
@@ -20,6 +21,7 @@ function HomePage({
         initData={initData}
         refreshKey={clansRefreshKey}
       />
+      <MyRequests initData={initData} />
 
       <div
         style={{
