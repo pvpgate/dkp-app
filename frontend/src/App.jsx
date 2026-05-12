@@ -4,6 +4,7 @@ import MyClans from "./components/MyClans";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ClanPage from "./pages/ClanPage";
 import Layout from "./components/Layout";
+import JoinClan from "./components/JoinClan";
 
 function HomePage({
   user,
@@ -26,6 +27,8 @@ function HomePage({
           setClansRefreshKey((prev) => prev + 1)
         }
       />
+
+      <JoinClan initData={initData} />
     </Layout>
   );
 }
