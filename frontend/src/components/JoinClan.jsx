@@ -30,7 +30,7 @@ function JoinClan({ initData }) {
   }
 
   return (
-    <div style={{ marginTop: 12 }}>
+    <div style={{ marginTop: 20 }}>
       <button onClick={() => setShowForm(true)}>
         Вступить в клан
       </button>
