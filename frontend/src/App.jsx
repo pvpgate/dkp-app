@@ -3,6 +3,7 @@ import CreateClan from "./components/CreateClan";
 import MyClans from "./components/MyClans";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ClanPage from "./pages/ClanPage";
+import MemberPage from "./pages/MemberPage";
 import Layout from "./components/Layout";
 import JoinClan from "./components/JoinClan";
 import MyRequests from "./components/MyRequests";
@@ -23,6 +24,7 @@ function HomePage({
         initData={initData}
         refreshKey={clansRefreshKey}
       />
+
       <MyRequests
         initData={initData}
         refreshKey={requestsRefreshKey}
@@ -119,6 +121,11 @@ function App() {
         <Route
           path="/clan/:clanId"
           element={<ClanPage initData={initData} />}
+        />
+
+        <Route
+          path="/clan/:clanId/member/:memberId"
+          element={<MemberPage initData={initData} />}
         />
       </Routes>
     </BrowserRouter>
