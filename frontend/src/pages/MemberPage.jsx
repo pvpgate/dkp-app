@@ -3,9 +3,16 @@ import { Link, useParams } from "react-router-dom";
 import Layout from "../components/Layout";
 import { getMemberInfo } from "../api/memberInfo";
 
+function roleLevel(role) {
+  if (role === "leader") return 3;
+  if (role === "officer") return 2;
+  return 1;
+}
+
 function MemberPage({ initData }) {
   const { clanId, memberId } = useParams();
   const [member, setMember] = useState(null);
+  const [currentUserRole, setCurrentUserRole] = useState(null);
 
   useEffect(() => {
     if (!initData || !clanId || !memberId) return;
@@ -15,11 +22,17 @@ function MemberPage({ initData }) {
 
       if (result.ok) {
         setMember(result.member);
+        setCurrentUserRole(result.current_user_role);
       }
     }
 
     loadMember();
   }, [clanId, memberId, initData]);
+
+  const canManageRole =
+    member &&
+    currentUserRole &&
+    roleLevel(currentUserRole) > roleLevel(member.role);
 
   return (
     <Layout>
@@ -42,9 +55,18 @@ function MemberPage({ initData }) {
 
       {member && (
         <div>
-          <p>Joined: {new Date(member.joined_at).toLocaleDateString()}</p>
-          <p>Role: {member.role}</p>
+          <p>
+            Role: {member.role}
+
+            {canManageRole && (
+              <button style={{ marginLeft: 8 }}>
+                Назначить роль
+              </button>
+            )}
+          </p>
+
           <p>DKP: {member.dkp}</p>
+          <p>Joined: {new Date(member.joined_at).toLocaleDateString()}</p>
         </div>
       )}
     </Layout>

@@ -26,6 +26,7 @@ async def member_info(clan_id: int, member_id: int, data: dict):
     ))
 
     current_member = cur.fetchone()
+    current_user_role = current_member[0]
 
     if not current_member:
         return {
@@ -58,6 +59,7 @@ async def member_info(clan_id: int, member_id: int, data: dict):
 
     return {
         "ok": True,
+        "current_user_role": current_user_role,
         "member": {
             "user_telegram_id": member[0],
             "game_nickname": member[1],
