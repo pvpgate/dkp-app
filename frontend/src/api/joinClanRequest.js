@@ -13,5 +13,16 @@ export async function sendJoinClanRequest(initData, publicId, gameNickname) {
     }),
   });
 
-  return response.json();
+  const result = await response.json();
+
+  if (!response.ok) {
+    console.log("JOIN REQUEST ERROR:", result);
+
+    return {
+      ok: false,
+      error: "Ошибка запроса. Проверь данные и попробуй снова.",
+    };
+  }
+
+  return result;
 }
