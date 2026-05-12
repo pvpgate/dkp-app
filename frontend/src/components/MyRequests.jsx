@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getMyRequests } from "../api/myRequests";
+import { cancelRequest } from "../api/cancelRequest";
 
 function MyRequests({ initData }) {
   const [requests, setRequests] = useState([]);
@@ -17,6 +18,16 @@ function MyRequests({ initData }) {
 
     loadRequests();
   }, [initData]);
+
+  async function handleCancelRequest(requestId) {
+    const result = await cancelRequest(requestId, initData);
+
+    if (result.ok) {
+      setRequests((prev) =>
+        prev.filter((request) => request.id !== requestId)
+      );
+    }
+  }
 
   return (
     <div style={{ marginTop: 20 }}>
@@ -49,7 +60,7 @@ function MyRequests({ initData }) {
               </div>
             </div>
 
-            <button>
+            <button onClick={() => handleCancelRequest(request.id)}>
               Отменить заявку
             </button>
           </div>
