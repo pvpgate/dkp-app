@@ -89,9 +89,27 @@ async def join_clan_request(data: dict):
         }
 
     cur.execute("""
+    SELECT id
+    FROM clan_requests
+    WHERE clan_id = %s
+      AND user_telegram_id = %s
+      AND status = 'pending'
+    """, (
+        clan_id,
+        user_id
+    ))
+
+    existing_request = cur.fetchone()
+
+    if existing_request:
+        return {
+            "ok": False,
+            "error": "У вас уже есть активная заявка в этот клан"
+        }
+
+    cur.execute("""
     INSERT INTO clan_requests (clan_id, user_telegram_id, game_nickname)
     VALUES (%s, %s, %s)
-    ON CONFLICT (clan_id, user_telegram_id) DO NOTHING
     """, (
         clan_id,
         user_id,
