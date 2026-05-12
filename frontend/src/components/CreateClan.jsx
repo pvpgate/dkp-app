@@ -25,7 +25,10 @@ function CreateClan({ initData, onClanCreated }) {
 
   return (
     <div>
-      <button onClick={() => setShowForm(true)}>
+      <button
+        onClick={() => setShowForm(true)}
+        style={{ width: 180 }}
+      >
         Создать клан
       </button>
 
