@@ -8,7 +8,6 @@ from routes.get_clan import router as get_clan_router
 from routes.delete_clan import router as delete_clan_router
 from routes.clan_members import router as clan_members_router
 from routes.join_clan_request import router as join_clan_request_router
-
 app = FastAPI()
 
 app.add_middleware(
@@ -19,10 +18,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(join_clan_request_router)
 app.include_router(auth_router)
 app.include_router(create_clan_router)
 app.include_router(my_clans_router)
 app.include_router(get_clan_router)
 app.include_router(delete_clan_router)
 app.include_router(clan_members_router)
-app.include_router(join_clan_request_router)
