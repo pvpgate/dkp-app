@@ -12,6 +12,7 @@ from routes.my_requests import router as my_requests_router
 from routes.cancel_request import router as cancel_request_router
 from routes.clan_requests import router as clan_requests_router
 from routes.process_request import router as process_request_router
+from routes.member_info import router as member_info_router
 
 app = FastAPI()
 
@@ -34,3 +35,4 @@ app.include_router(my_requests_router)
 app.include_router(cancel_request_router)
 app.include_router(clan_requests_router)
 app.include_router(process_request_router)
+app.include_router(member_info_router)
