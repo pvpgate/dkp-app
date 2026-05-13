@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Layout from "../components/Layout";
 import { getMemberInfo } from "../api/memberInfo";
 import { changeMemberRole } from "../api/changeMemberRole";
 import { changeDkp } from "../api/changeDkp";
+import { kickMember } from "../api/kickMember";
 
 function roleLevel(role) {
   if (role === "leader") return 3;
@@ -13,6 +14,8 @@ function roleLevel(role) {
 
 function MemberPage({ initData }) {
   const { clanId, memberId } = useParams();
+  const navigate = useNavigate();
+
   const [member, setMember] = useState(null);
   const [currentUserRole, setCurrentUserRole] = useState(null);
 
@@ -49,6 +52,12 @@ function MemberPage({ initData }) {
 
   const canManageDkp =
     currentUserRole === "leader" || currentUserRole === "officer";
+
+  const canKickMember =
+    member &&
+    currentUserRole &&
+    member.role !== "leader" &&
+    roleLevel(currentUserRole) > roleLevel(member.role);
 
   async function handleChangeRole() {
     setError("");
@@ -108,6 +117,19 @@ function MemberPage({ initData }) {
     setDkpReason("");
     setDkpOperation("add");
     setShowDkpForm(false);
+  }
+
+  async function handleKickMember() {
+    setError("");
+
+    const result = await kickMember(clanId, memberId, initData);
+
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
+
+    navigate(`/clan/${clanId}`);
   }
 
   return (
@@ -254,6 +276,12 @@ function MemberPage({ initData }) {
           )}
 
           <p>Joined: {new Date(member.joined_at).toLocaleDateString()}</p>
+
+          {canKickMember && (
+            <button onClick={handleKickMember}>
+              Исключить
+            </button>
+          )}
 
           {error && <p style={{ color: "red" }}>{error}</p>}
         </div>
