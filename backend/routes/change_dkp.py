@@ -22,7 +22,14 @@ async def change_dkp(clan_id: int, member_id: int, data: dict):
             "error": "Укажите количество DKP"
         }
 
-    amount = int(amount)
+    try:
+        amount = int(amount)
+    except ValueError:
+        conn.rollback()
+        return {
+            "ok": False,
+            "error": "Количество DKP должно быть числом"
+        }
 
     if amount == 0:
         return {
