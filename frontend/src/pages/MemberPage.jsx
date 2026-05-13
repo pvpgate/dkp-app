@@ -27,6 +27,9 @@ function MemberPage({ initData }) {
   const [dkpAmount, setDkpAmount] = useState("");
   const [dkpReason, setDkpReason] = useState("");
 
+  const [showKickConfirm, setShowKickConfirm] = useState(false);
+  const [kickName, setKickName] = useState("");
+
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -121,6 +124,11 @@ function MemberPage({ initData }) {
 
   async function handleKickMember() {
     setError("");
+
+    if (kickName !== member.game_nickname) {
+      setError("Ник введён неверно");
+      return;
+    }
 
     const result = await kickMember(clanId, memberId, initData);
 
@@ -278,9 +286,55 @@ function MemberPage({ initData }) {
           <p>Joined: {new Date(member.joined_at).toLocaleDateString()}</p>
 
           {canKickMember && (
-            <button onClick={handleKickMember}>
+            <button onClick={() => setShowKickConfirm(true)}>
               Исключить
             </button>
+          )}
+
+          {showKickConfirm && (
+            <div
+              style={{
+                border: "1px solid #ccc",
+                borderRadius: 8,
+                padding: 12,
+                marginTop: 12,
+              }}
+            >
+              <p>
+                Вы уверены что хотите исключить{" "}
+                <b>{member.game_nickname}</b>? Все накопленные очки ДКП будут
+                потеряны. Для исключения напишите ник персонажа и нажмите
+                кнопку исключить.
+              </p>
+
+              <input
+                value={kickName}
+                onChange={(e) => setKickName(e.target.value)}
+                placeholder="Ник персонажа"
+              />
+
+              <div
+                style={{
+                  display: "flex",
+                  gap: 8,
+                  marginTop: 12,
+                }}
+              >
+                <button onClick={handleKickMember}>
+                  Исключить
+                </button>
+
+                <button
+                  onClick={() => {
+                    setShowKickConfirm(false);
+                    setKickName("");
+                    setError("");
+                  }}
+                >
+                  Отмена
+                </button>
+              </div>
+            </div>
           )}
 
           {error && <p style={{ color: "red" }}>{error}</p>}
