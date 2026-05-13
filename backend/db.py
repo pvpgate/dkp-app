@@ -51,4 +51,17 @@ CREATE TABLE IF NOT EXISTS clan_requests (
 )
 """)
 
+cur.execute("""
+CREATE TABLE IF NOT EXISTS dkp_logs (
+    id SERIAL PRIMARY KEY,
+    clan_id INTEGER NOT NULL REFERENCES clans(id),
+    user_telegram_id BIGINT NOT NULL REFERENCES users(telegram_id),
+    changed_by_telegram_id BIGINT NOT NULL REFERENCES users(telegram_id),
+    event_id INTEGER,
+    amount INTEGER NOT NULL,
+    reason TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
+)
+""")
+
 conn.commit()
