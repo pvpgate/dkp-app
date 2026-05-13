@@ -16,6 +16,9 @@ function ClanPage({ initData }) {
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("members");
 
+  const canViewRequests =
+    clan?.role === "leader" || clan?.role === "officer";
+
   useEffect(() => {
     if (!initData) return;
 
@@ -134,9 +137,11 @@ function ClanPage({ initData }) {
           Мемберы
         </button>
 
-        <button onClick={() => setActiveTab("requests")}>
-          Заявки
-        </button>
+        {canViewRequests && (
+          <button onClick={() => setActiveTab("requests")}>
+            Заявки
+          </button>
+        )}
       </div>
 
       {activeTab === "members" && (
@@ -147,7 +152,7 @@ function ClanPage({ initData }) {
         />
       )}
 
-      {activeTab === "requests" && (
+      {activeTab === "requests" && canViewRequests && (
         <ClanRequests
           clanId={clanId}
           initData={initData}
