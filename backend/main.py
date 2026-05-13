@@ -14,6 +14,7 @@ from routes.clan_requests import router as clan_requests_router
 from routes.process_request import router as process_request_router
 from routes.member_info import router as member_info_router
 from routes.change_member_role import router as change_member_role_router
+from routes.change_dkp import router as change_dkp_router
 
 app = FastAPI()
 
@@ -38,3 +39,4 @@ app.include_router(clan_requests_router)
 app.include_router(process_request_router)
 app.include_router(member_info_router)
 app.include_router(change_member_role_router)
+app.include_router(change_dkp_router)
