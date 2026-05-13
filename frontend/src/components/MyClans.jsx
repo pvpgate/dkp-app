@@ -57,15 +57,14 @@ function MyClans({ initData, refreshKey }) {
             </div>
 
             <div style={{ display: "flex", gap: 8 }}>
-              {(clan.role === "leader" || clan.role === "officer") && (
-                <button onClick={() => navigate(`/clan/${clan.id}`)}>
-                  Manage
-                </button>
-              )}
-
               {(clan.role === "member" || clan.role === "officer") && (
                 <button>
-                  Leave
+                  Выйти из клана
+                </button>
+              )}  
+              {(clan.role === "leader" || clan.role === "officer") && (
+                <button onClick={() => navigate(`/clan/${clan.id}`)}>
+                  Перейти
                 </button>
               )}
             </div>
