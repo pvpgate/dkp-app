@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import Layout from "../components/Layout";
 import { getMemberInfo } from "../api/memberInfo";
 import { changeMemberRole } from "../api/changeMemberRole";
+import { changeDkp } from "../api/changeDkp";
 
 function roleLevel(role) {
   if (role === "leader") return 3;
@@ -14,8 +15,15 @@ function MemberPage({ initData }) {
   const { clanId, memberId } = useParams();
   const [member, setMember] = useState(null);
   const [currentUserRole, setCurrentUserRole] = useState(null);
+
   const [showRoleForm, setShowRoleForm] = useState(false);
   const [newRole, setNewRole] = useState("member");
+
+  const [showDkpForm, setShowDkpForm] = useState(false);
+  const [dkpOperation, setDkpOperation] = useState("add");
+  const [dkpAmount, setDkpAmount] = useState("");
+  const [dkpReason, setDkpReason] = useState("");
+
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -39,6 +47,9 @@ function MemberPage({ initData }) {
     currentUserRole &&
     roleLevel(currentUserRole) > roleLevel(member.role);
 
+  const canManageDkp =
+    currentUserRole === "leader" || currentUserRole === "officer";
+
   async function handleChangeRole() {
     setError("");
 
@@ -60,6 +71,43 @@ function MemberPage({ initData }) {
     }));
 
     setShowRoleForm(false);
+  }
+
+  async function handleChangeDkp() {
+    setError("");
+
+    const parsedAmount = Number(dkpAmount);
+
+    if (!parsedAmount || parsedAmount <= 0) {
+      setError("Введите положительное количество DKP");
+      return;
+    }
+
+    const finalAmount =
+      dkpOperation === "add" ? parsedAmount : -parsedAmount;
+
+    const result = await changeDkp(
+      clanId,
+      memberId,
+      initData,
+      finalAmount,
+      dkpReason
+    );
+
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
+
+    setMember((prev) => ({
+      ...prev,
+      dkp: result.dkp,
+    }));
+
+    setDkpAmount("");
+    setDkpReason("");
+    setDkpOperation("add");
+    setShowDkpForm(false);
   }
 
   return (
@@ -133,13 +181,81 @@ function MemberPage({ initData }) {
                   Отмена
                 </button>
               </div>
-
-              {error && <p style={{ color: "red" }}>{error}</p>}
             </div>
           )}
 
-          <p>DKP: {member.dkp}</p>
+          <p>
+            DKP: {member.dkp}
+
+            {canManageDkp && (
+              <button
+                style={{ marginLeft: 8 }}
+                onClick={() => setShowDkpForm(true)}
+              >
+                Изменить DKP
+              </button>
+            )}
+          </p>
+
+          {showDkpForm && (
+            <div
+              style={{
+                border: "1px solid #ccc",
+                borderRadius: 8,
+                padding: 12,
+                marginBottom: 12,
+              }}
+            >
+              <p>Изменить DKP</p>
+
+              <div style={{ marginBottom: 8 }}>
+                <select
+                  value={dkpOperation}
+                  onChange={(e) => setDkpOperation(e.target.value)}
+                >
+                  <option value="add">Добавить</option>
+                  <option value="subtract">Отнять</option>
+                </select>
+              </div>
+
+              <div style={{ marginBottom: 8 }}>
+                <input
+                  type="number"
+                  value={dkpAmount}
+                  onChange={(e) => setDkpAmount(e.target.value)}
+                  placeholder="Количество DKP"
+                />
+              </div>
+
+              <div style={{ marginBottom: 8 }}>
+                <input
+                  value={dkpReason}
+                  onChange={(e) => setDkpReason(e.target.value)}
+                  placeholder="Причина"
+                />
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  gap: 8,
+                  marginTop: 12,
+                }}
+              >
+                <button onClick={handleChangeDkp}>
+                  Сохранить
+                </button>
+
+                <button onClick={() => setShowDkpForm(false)}>
+                  Отмена
+                </button>
+              </div>
+            </div>
+          )}
+
           <p>Joined: {new Date(member.joined_at).toLocaleDateString()}</p>
+
+          {error && <p style={{ color: "red" }}>{error}</p>}
         </div>
       )}
     </Layout>
