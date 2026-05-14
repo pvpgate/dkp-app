@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getClan } from "../api/getClan";
 import { deleteClan } from "../api/deleteClan";
+import { leaveClan } from "../api/leaveClan";
 import Layout from "../components/Layout";
 import ClanMembers from "../components/ClanMembers";
 import ClanRequests from "../components/ClanRequests";
@@ -39,6 +40,19 @@ function ClanPage({ initData }) {
     setError("");
 
     const result = await deleteClan(clanId, initData, deleteName);
+
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
+
+    navigate("/");
+  }
+
+  async function handleLeaveClan() {
+    setError("");
+
+    const result = await leaveClan(clanId, initData, leaveName);
 
     if (!result.ok) {
       setError(result.error);
@@ -203,7 +217,7 @@ function ClanPage({ initData }) {
               justifyContent: "center",
             }}
           >
-            <button>
+            <button onClick={handleLeaveClan}>
               Покинуть
             </button>
 
@@ -217,6 +231,8 @@ function ClanPage({ initData }) {
               Отмена
             </button>
           </div>
+
+          {error && <p style={{ color: "red" }}>{error}</p>}
         </div>
       )}
     </Layout>
