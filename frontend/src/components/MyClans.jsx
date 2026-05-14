@@ -57,11 +57,6 @@ function MyClans({ initData, refreshKey }) {
             </div>
 
             <div style={{ display: "flex", gap: 8 }}>
-              {(clan.role === "member" || clan.role === "officer") && (
-                <button>
-                  Выйти из клана
-                </button>
-              )}  
               <button onClick={() => navigate(`/clan/${clan.id}`)}>
                 Перейти
               </button>

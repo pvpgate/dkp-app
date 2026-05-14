@@ -158,6 +158,11 @@ function ClanPage({ initData }) {
           initData={initData}
         />
       )}
+      {(clan.role === "member" || clan.role === "officer") && (
+        <button>
+          Выйти из клана
+        </button>
+      )}  
     </Layout>
   );
 }
