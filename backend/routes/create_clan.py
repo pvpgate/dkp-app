@@ -28,7 +28,7 @@ async def create_clan(data: CreateClanRequest):
     cur.execute("""
     SELECT COUNT(*)
     FROM clans
-    WHERE owner_telegram_id = %s
+    WHERE leader_telegram_id = %s
     """, (user_id,))
 
     clans_count = cur.fetchone()[0]
