@@ -159,6 +159,10 @@ function ClanPage({ initData }) {
           Мемберы
         </button>
 
+        <button onClick={() => setActiveTab("events")}>
+          События
+        </button>
+
         {canViewRequests && (
           <button onClick={() => setActiveTab("requests")}>
             Заявки
@@ -172,6 +176,13 @@ function ClanPage({ initData }) {
           initData={initData}
           currentUserRole={clan?.role}
         />
+      )}
+
+      {activeTab === "events" && (
+        <div>
+          <h2>События</h2>
+          <p>Список событий будет здесь</p>
+        </div>
       )}
 
       {activeTab === "requests" && canViewRequests && (
