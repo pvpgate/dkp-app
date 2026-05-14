@@ -25,6 +25,20 @@ async def create_clan(data: CreateClanRequest):
 
     user_id = user_data["id"]
 
+    cur.execute("""
+    SELECT COUNT(*)
+    FROM clans
+    WHERE owner_telegram_id = %s
+    """, (user_id,))
+
+    clans_count = cur.fetchone()[0]
+
+    if clans_count >= 3:
+        return {
+            "ok": False,
+            "error": "Максимальное количество кланов для одного пользователя: 3. Удалите один из кланов для создания нового."
+        }
+
     if not data.name.isalnum():
         return {
             "ok": False,
