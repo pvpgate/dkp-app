@@ -13,6 +13,8 @@ function ClanPage({ initData }) {
   const [clan, setClan] = useState(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deleteName, setDeleteName] = useState("");
+  const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
+  const [leaveName, setLeaveName] = useState("");
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("members");
 
@@ -117,7 +119,13 @@ function ClanPage({ initData }) {
               Удалить
             </button>
 
-            <button onClick={() => setShowDeleteConfirm(false)}>
+            <button
+              onClick={() => {
+                setShowDeleteConfirm(false);
+                setDeleteName("");
+                setError("");
+              }}
+            >
               Отменить
             </button>
           </div>
@@ -158,11 +166,57 @@ function ClanPage({ initData }) {
           initData={initData}
         />
       )}
+
       {clan?.role !== "leader" && (
         <div style={{ marginTop: 24 }}>
-            <button>
+          <button onClick={() => setShowLeaveConfirm(true)}>
             Покинуть клан
+          </button>
+        </div>
+      )}
+
+      {showLeaveConfirm && clan && (
+        <div
+          style={{
+            border: "1px solid #ccc",
+            borderRadius: 8,
+            padding: 12,
+            marginTop: 12,
+          }}
+        >
+          <p>
+            Вы уверены что хотите покинуть клан {clan.name}? Все накопленные
+            ДКП будут потеряны. Для выхода напишите название клана.
+          </p>
+
+          <input
+            value={leaveName}
+            onChange={(e) => setLeaveName(e.target.value)}
+            placeholder="Название клана"
+          />
+
+          <div
+            style={{
+              display: "flex",
+              gap: 8,
+              marginTop: 12,
+              justifyContent: "center",
+            }}
+          >
+            <button>
+              Покинуть
             </button>
+
+            <button
+              onClick={() => {
+                setShowLeaveConfirm(false);
+                setLeaveName("");
+                setError("");
+              }}
+            >
+              Отмена
+            </button>
+          </div>
         </div>
       )}
     </Layout>
