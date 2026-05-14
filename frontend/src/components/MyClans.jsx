@@ -10,10 +10,13 @@ function roleIcon(role) {
 
 function MyClans({ initData, refreshKey }) {
   const [clans, setClans] = useState([]);
+  const [hoveredClanId, setHoveredClanId] = useState(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!initData) return;
+
     async function loadClans() {
       const result = await getMyClans(initData);
 
@@ -35,6 +38,9 @@ function MyClans({ initData, refreshKey }) {
         clans.map((clan) => (
           <div
             key={clan.id}
+            onClick={() => navigate(`/clan/${clan.id}`)}
+            onMouseEnter={() => setHoveredClanId(clan.id)}
+            onMouseLeave={() => setHoveredClanId(null)}
             style={{
               marginBottom: 12,
               padding: 12,
@@ -44,6 +50,14 @@ function MyClans({ initData, refreshKey }) {
               justifyContent: "space-between",
               alignItems: "center",
               gap: 12,
+              cursor: "pointer",
+              transition: "0.15s ease",
+              backgroundColor:
+                hoveredClanId === clan.id ? "#f5f5f5" : "transparent",
+              transform:
+                hoveredClanId === clan.id
+                  ? "scale(1.01)"
+                  : "scale(1)",
             }}
           >
             <div>
@@ -54,12 +68,6 @@ function MyClans({ initData, refreshKey }) {
               <div>
                 Members: {clan.members_count} | DKP: {clan.dkp}
               </div>
-            </div>
-
-            <div style={{ display: "flex", gap: 8 }}>
-              <button onClick={() => navigate(`/clan/${clan.id}`)}>
-                Перейти
-              </button>
             </div>
           </div>
         ))
