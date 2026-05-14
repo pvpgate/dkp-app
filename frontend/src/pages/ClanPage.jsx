@@ -93,11 +93,16 @@ function ClanPage({ initData }) {
           {clan ? clan.name : "Loading..."}
         </h1>
 
-        {clan?.role === "leader" && (
+        {clan?.role === "leader" ? (
           <button onClick={() => setShowDeleteConfirm(true)}>
-            Delete clan
+            Удалить клан
+          </button>
+        ) : (
+          <button onClick={() => setShowLeaveConfirm(true)}>
+            Покинуть клан
           </button>
         )}
+
       </div>
 
       {showDeleteConfirm && clan && (
@@ -190,14 +195,6 @@ function ClanPage({ initData }) {
           clanId={clanId}
           initData={initData}
         />
-      )}
-
-      {clan?.role !== "leader" && (
-        <div style={{ marginTop: 24 }}>
-          <button onClick={() => setShowLeaveConfirm(true)}>
-            Покинуть клан
-          </button>
-        </div>
       )}
 
       {showLeaveConfirm && clan && (
