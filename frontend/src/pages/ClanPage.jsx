@@ -158,11 +158,13 @@ function ClanPage({ initData }) {
           initData={initData}
         />
       )}
-      {(clan.role === "member" || clan.role === "officer") && (
-        <button>
-          Выйти из клана
-        </button>
-      )}  
+      {clan?.role !== "leader" && (
+        <div style={{ marginTop: 24 }}>
+            <button>
+            Покинуть клан
+            </button>
+        </div>
+      )}
     </Layout>
   );
 }
