@@ -31,7 +31,7 @@ function EventPage({ initData }) {
         }}
       >
         <Link
-          to={`/clan/${clanId}`}
+          to={`/clan/${clanId}?tab=events`}
           style={{ textDecoration: "none" }}
         >
           ← Back

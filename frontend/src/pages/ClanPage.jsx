@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { getClan } from "../api/getClan";
 import { deleteClan } from "../api/deleteClan";
 import { leaveClan } from "../api/leaveClan";
@@ -11,6 +11,7 @@ import ClanEvents from "../components/ClanEvents";
 function ClanPage({ initData }) {
   const { clanId } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const [clan, setClan] = useState(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -18,7 +19,7 @@ function ClanPage({ initData }) {
   const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
   const [leaveName, setLeaveName] = useState("");
   const [error, setError] = useState("");
-  const [activeTab, setActiveTab] = useState("members");
+  const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "members");
 
   const canViewRequests =
     clan?.role === "leader" || clan?.role === "officer";
