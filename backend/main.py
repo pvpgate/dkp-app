@@ -18,6 +18,7 @@ from routes.change_dkp import router as change_dkp_router
 from routes.kick_member import router as kick_member_router
 from routes.leave_clan import router as leave_clan_router
 from routes.create_event import router as create_event_router
+from routes.clan_events import router as clan_events_router
 
 app = FastAPI()
 
@@ -46,3 +47,4 @@ app.include_router(change_dkp_router)
 app.include_router(kick_member_router)
 app.include_router(leave_clan_router)
 app.include_router(create_event_router)
+app.include_router(clan_events_router)

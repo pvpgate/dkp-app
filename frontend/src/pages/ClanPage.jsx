@@ -6,6 +6,7 @@ import { leaveClan } from "../api/leaveClan";
 import Layout from "../components/Layout";
 import ClanMembers from "../components/ClanMembers";
 import ClanRequests from "../components/ClanRequests";
+import ClanEvents from "../components/ClanEvents";
 
 function ClanPage({ initData }) {
   const { clanId } = useParams();
@@ -184,10 +185,11 @@ function ClanPage({ initData }) {
       )}
 
       {activeTab === "events" && (
-        <div>
-          <h2>События</h2>
-          <p>Список событий будет здесь</p>
-        </div>
+        <ClanEvents
+          clanId={clanId}
+          initData={initData}
+          currentUserRole={clan?.role}
+        />
       )}
 
       {activeTab === "requests" && canViewRequests && (
