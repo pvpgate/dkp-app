@@ -52,8 +52,15 @@ CREATE TABLE IF NOT EXISTS clan_requests (
 """)
 
 cur.execute("""
-ALTER TABLE clan_requests
-DROP CONSTRAINT IF EXISTS clan_requests_clan_id_user_telegram_id_key
+CREATE TABLE IF NOT EXISTS events (
+    id SERIAL PRIMARY KEY,
+    clan_id INTEGER NOT NULL REFERENCES clans(id),
+    title TEXT NOT NULL,
+    dkp_reward INTEGER NOT NULL,
+    created_by_telegram_id BIGINT NOT NULL REFERENCES users(telegram_id),
+    is_closed BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT NOW()
+)
 """)
 
 cur.execute("""
