@@ -8,6 +8,7 @@ function ClanEvents({ clanId, initData, currentUserRole }) {
   const [title, setTitle] = useState("");
   const [dkpReward, setDkpReward] = useState("");
   const [error, setError] = useState("");
+  const [hoveredEventId, setHoveredEventId] = useState(null);
 
   const navigate = useNavigate();
 
@@ -123,6 +124,8 @@ function ClanEvents({ clanId, initData, currentUserRole }) {
           <div
             key={event.id}
             onClick={() => navigate(`/clan/${clanId}/event/${event.id}`)}
+            onMouseEnter={() => setHoveredEventId(event.id)}
+            onMouseLeave={() => setHoveredEventId(null)}
             style={{
               marginTop: 12,
               padding: 12,
@@ -133,6 +136,10 @@ function ClanEvents({ clanId, initData, currentUserRole }) {
               alignItems: "center",
               cursor: "pointer",
               transition: "0.15s ease",
+              backgroundColor:
+                hoveredEventId === event.id ? "#f5f5f5" : "transparent",
+              transform:
+                hoveredEventId === event.id ? "scale(1.01)" : "scale(1)",
             }}
           >
             <div>
