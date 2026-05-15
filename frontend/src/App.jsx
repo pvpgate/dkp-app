@@ -7,6 +7,7 @@ import MemberPage from "./pages/MemberPage";
 import Layout from "./components/Layout";
 import JoinClan from "./components/JoinClan";
 import MyRequests from "./components/MyRequests";
+import EventPage from "./pages/EventPage";
 
 function HomePage({
   user,
@@ -127,6 +128,12 @@ function App() {
           path="/clan/:clanId/member/:memberId"
           element={<MemberPage initData={initData} />}
         />
+
+        <Route
+          path="/clan/:clanId/event/:eventId"
+          element={<EventPage initData={initData} />}
+        />
+
       </Routes>
     </BrowserRouter>
   );

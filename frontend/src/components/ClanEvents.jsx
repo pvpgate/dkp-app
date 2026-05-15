@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getClanEvents, createEvent } from "../api/clanEvents";
+import { useNavigate } from "react-router-dom";
 
 function ClanEvents({ clanId, initData, currentUserRole }) {
   const [events, setEvents] = useState([]);
@@ -7,6 +8,8 @@ function ClanEvents({ clanId, initData, currentUserRole }) {
   const [title, setTitle] = useState("");
   const [dkpReward, setDkpReward] = useState("");
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   const canCreateEvent =
     currentUserRole === "leader" || currentUserRole === "officer";
@@ -119,6 +122,7 @@ function ClanEvents({ clanId, initData, currentUserRole }) {
         events.map((event) => (
           <div
             key={event.id}
+            onClick={() => navigate(`/clan/${clanId}/event/${event.id}`)}
             style={{
               marginTop: 12,
               padding: 12,
@@ -127,13 +131,15 @@ function ClanEvents({ clanId, initData, currentUserRole }) {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
+              cursor: "pointer",
+              transition: "0.15s ease",
             }}
           >
             <div>
               <b>{event.title}</b>{" "}
-                <span style={{ color: "#777", fontSize: 14 }}>
-                  ({new Date(event.created_at).toLocaleDateString()})
-                </span>
+              <span style={{ color: "#777", fontSize: 14 }}>
+                ({new Date(event.created_at).toLocaleDateString()})
+              </span>
             </div>
 
             <div>
