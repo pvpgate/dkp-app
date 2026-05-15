@@ -124,6 +124,9 @@ function ClanEvents({ clanId, initData, currentUserRole }) {
               padding: 12,
               border: "1px solid #ccc",
               borderRadius: 8,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
             <div>
@@ -131,11 +134,7 @@ function ClanEvents({ clanId, initData, currentUserRole }) {
             </div>
 
             <div>
-              DKP: {event.dkp_reward}
-            </div>
-
-            <div>
-              Статус: {event.is_closed ? "Закрыто" : "Открыто"}
+              {event.dkp_reward} DKP
             </div>
           </div>
         ))
