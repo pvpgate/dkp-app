@@ -9,6 +9,8 @@ function EventPage({ initData }) {
 
   const [event, setEvent] = useState(null);
   const [canDelete, setCanDelete] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deletePublicId, setDeletePublicId] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -28,6 +30,11 @@ function EventPage({ initData }) {
 
   async function handleDeleteEvent() {
     setError("");
+
+    if (deletePublicId.toUpperCase() !== event.public_id) {
+      setError("ID события введён неверно");
+      return;
+    }
 
     const result = await deleteEvent(clanId, eventId, initData);
 
@@ -69,7 +76,7 @@ function EventPage({ initData }) {
         </h1>
 
         {canDelete && (
-          <button onClick={handleDeleteEvent}>
+          <button onClick={() => setShowDeleteConfirm(true)}>
             Удалить событие
           </button>
         )}
@@ -81,6 +88,51 @@ function EventPage({ initData }) {
           <p>Дата: {new Date(event.created_at).toLocaleDateString()}</p>
           <p>DKP: {event.dkp_reward}</p>
           <p>Статус: {event.is_closed ? "Закрыто" : "Открыто"}</p>
+        </div>
+      )}
+
+      {showDeleteConfirm && event && (
+        <div
+          style={{
+            border: "1px solid #ccc",
+            borderRadius: 8,
+            padding: 12,
+            marginTop: 12,
+          }}
+        >
+          <p>
+            Вы уверены что хотите удалить событие? Для удаления введите ID
+            события.
+          </p>
+
+          <input
+            value={deletePublicId}
+            onChange={(e) => setDeletePublicId(e.target.value)}
+            placeholder="ID события"
+          />
+
+          <div
+            style={{
+              display: "flex",
+              gap: 8,
+              marginTop: 12,
+              justifyContent: "center",
+            }}
+          >
+            <button onClick={handleDeleteEvent}>
+              Удалить
+            </button>
+
+            <button
+              onClick={() => {
+                setShowDeleteConfirm(false);
+                setDeletePublicId("");
+                setError("");
+              }}
+            >
+              Отмена
+            </button>
+          </div>
         </div>
       )}
 
