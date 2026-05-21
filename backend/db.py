@@ -54,6 +54,7 @@ CREATE TABLE IF NOT EXISTS clan_requests (
 cur.execute("""
 CREATE TABLE IF NOT EXISTS events (
     id SERIAL PRIMARY KEY,
+    public_id VARCHAR(5) UNIQUE,
     clan_id INTEGER NOT NULL REFERENCES clans(id),
     title TEXT NOT NULL,
     dkp_reward INTEGER NOT NULL,
@@ -61,6 +62,11 @@ CREATE TABLE IF NOT EXISTS events (
     is_closed BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT NOW()
 )
+""")
+
+cur.execute("""
+ALTER TABLE events
+ADD COLUMN IF NOT EXISTS public_id VARCHAR(5) UNIQUE
 """)
 
 cur.execute("""
