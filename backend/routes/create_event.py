@@ -1,9 +1,16 @@
 from fastapi import APIRouter
 import json
+import random
+import string
 from urllib.parse import parse_qsl
 from db import conn, cur
 
 router = APIRouter()
+
+
+def generate_public_id():
+    symbols = string.ascii_uppercase + string.digits
+    return "".join(random.choice(symbols) for _ in range(5))
 
 
 @router.post("/clans/{clan_id}/events/create")
@@ -62,17 +69,33 @@ async def create_event(clan_id: int, data: dict):
             "error": "Недостаточно прав"
         }
 
+    while True:
+        public_id = generate_public_id()
+
+        cur.execute("""
+        SELECT id
+        FROM events
+        WHERE public_id = %s
+        """, (public_id,))
+
+        existing_event = cur.fetchone()
+
+        if existing_event is None:
+            break
+
     cur.execute("""
     INSERT INTO events (
         clan_id,
+        public_id,
         title,
         dkp_reward,
         created_by_telegram_id
     )
-    VALUES (%s, %s, %s, %s)
-    RETURNING id, title, dkp_reward, is_closed, created_at
+    VALUES (%s, %s, %s, %s, %s)
+    RETURNING id, public_id, title, dkp_reward, is_closed, created_at
     """, (
         clan_id,
+        public_id,
         title,
         dkp_reward,
         user_id
@@ -85,9 +108,10 @@ async def create_event(clan_id: int, data: dict):
         "ok": True,
         "event": {
             "id": event[0],
-            "title": event[1],
-            "dkp_reward": event[2],
-            "is_closed": event[3],
-            "created_at": str(event[4])
+            "public_id": event[1],
+            "title": event[2],
+            "dkp_reward": event[3],
+            "is_closed": event[4],
+            "created_at": str(event[5])
         }
     }

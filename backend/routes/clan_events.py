@@ -35,6 +35,7 @@ async def clan_events(clan_id: int, data: dict):
     cur.execute("""
     SELECT
         id,
+        public_id,
         title,
         dkp_reward,
         is_closed,
@@ -51,10 +52,11 @@ async def clan_events(clan_id: int, data: dict):
     for row in rows:
         events.append({
             "id": row[0],
-            "title": row[1],
-            "dkp_reward": row[2],
-            "is_closed": row[3],
-            "created_at": str(row[4]),
+            "public_id": row[1],
+            "title": row[2],
+            "dkp_reward": row[3],
+            "is_closed": row[4],
+            "created_at": str(row[5]),
         })
 
     return {

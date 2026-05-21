@@ -143,7 +143,7 @@ function ClanEvents({ clanId, initData, currentUserRole }) {
             }}
           >
             <div>
-              <b>{event.title}</b>{" "}
+              <b>{event.title}</b> #{event.public_id}{" "}
               <span style={{ color: "#777", fontSize: 14 }}>
                 ({new Date(event.created_at).toLocaleDateString()})
               </span>

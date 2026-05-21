@@ -35,6 +35,7 @@ async def get_event(clan_id: int, event_id: int, data: dict):
     cur.execute("""
     SELECT
         id,
+        public_id,
         title,
         dkp_reward,
         is_closed,
@@ -59,9 +60,10 @@ async def get_event(clan_id: int, event_id: int, data: dict):
         "ok": True,
         "event": {
             "id": event[0],
-            "title": event[1],
-            "dkp_reward": event[2],
-            "is_closed": event[3],
-            "created_at": str(event[4])
+            "public_id": event[1],
+            "title": event[2],
+            "dkp_reward": event[3],
+            "is_closed": event[4],
+            "created_at": str(event[5])
         }
     }
