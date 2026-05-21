@@ -61,8 +61,10 @@ async def get_event(clan_id: int, event_id: int, data: dict):
 
     created_by_telegram_id = event[6]
 
-    can_delete =
-        current_user_role == "leader" or created_by_telegram_id == user_id
+    can_delete = (
+        current_user_role == "leader"
+        or created_by_telegram_id == user_id
+    )
 
     return {
         "ok": True,
