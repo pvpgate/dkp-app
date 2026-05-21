@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Layout from "../components/Layout";
-import { getEvent, deleteEvent, joinEvent } from "../api/event";
+import { getEvent, deleteEvent, joinEvent, leaveEvent } from "../api/event";
 
 function EventPage({ initData }) {
   const { clanId, eventId } = useParams();
@@ -44,6 +44,20 @@ function EventPage({ initData }) {
 
     setIsParticipant(true);
     setParticipationStatus("pending");
+  }
+
+  async function handleLeaveEvent() {
+    setError("");
+
+    const result = await leaveEvent(clanId, eventId, initData);
+
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
+
+    setIsParticipant(false);
+    setParticipationStatus(null);
   }
 
   async function handleDeleteEvent() {
@@ -110,6 +124,12 @@ function EventPage({ initData }) {
           {!event.is_closed && !isParticipant && (
             <button onClick={handleJoinEvent}>
               Участвовать
+            </button>
+          )}
+
+          {!event.is_closed && isParticipant && (
+            <button onClick={handleLeaveEvent}>
+              Отменить участие
             </button>
           )}
 

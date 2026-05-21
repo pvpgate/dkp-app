@@ -41,3 +41,17 @@ export async function joinEvent(clanId, eventId, initData) {
 
   return response.json();
 }
+
+export async function leaveEvent(clanId, eventId, initData) {
+  const response = await fetch(`${API_URL}/clans/${clanId}/events/${eventId}/leave`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      initData,
+    }),
+  });
+
+  return response.json();
+}
