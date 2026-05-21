@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Layout from "../components/Layout";
-import { getEvent, deleteEvent } from "../api/event";
+import { getEvent, deleteEvent, joinEvent } from "../api/event";
 
 function EventPage({ initData }) {
   const { clanId, eventId } = useParams();
@@ -9,6 +9,8 @@ function EventPage({ initData }) {
 
   const [event, setEvent] = useState(null);
   const [canDelete, setCanDelete] = useState(false);
+  const [isParticipant, setIsParticipant] = useState(false);
+  const [participationStatus, setParticipationStatus] = useState(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deletePublicId, setDeletePublicId] = useState("");
   const [error, setError] = useState("");
@@ -22,11 +24,27 @@ function EventPage({ initData }) {
       if (result.ok) {
         setEvent(result.event);
         setCanDelete(result.can_delete);
+        setIsParticipant(result.is_participant);
+        setParticipationStatus(result.participation_status);
       }
     }
 
     loadEvent();
   }, [clanId, eventId, initData]);
+
+  async function handleJoinEvent() {
+    setError("");
+
+    const result = await joinEvent(clanId, eventId, initData);
+
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
+
+    setIsParticipant(true);
+    setParticipationStatus("pending");
+  }
 
   async function handleDeleteEvent() {
     setError("");
@@ -88,6 +106,18 @@ function EventPage({ initData }) {
           <p>Дата: {new Date(event.created_at).toLocaleDateString()}</p>
           <p>DKP: {event.dkp_reward}</p>
           <p>Статус: {event.is_closed ? "Закрыто" : "Открыто"}</p>
+
+          {!event.is_closed && !isParticipant && (
+            <button onClick={handleJoinEvent}>
+              Участвовать
+            </button>
+          )}
+
+          {isParticipant && (
+            <p>
+              Ваш статус участия: {participationStatus}
+            </p>
+          )}
         </div>
       )}
 

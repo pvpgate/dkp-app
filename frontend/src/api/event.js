@@ -27,3 +27,17 @@ export async function deleteEvent(clanId, eventId, initData) {
 
   return response.json();
 }
+
+export async function joinEvent(clanId, eventId, initData) {
+  const response = await fetch(`${API_URL}/clans/${clanId}/events/${eventId}/join`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      initData,
+    }),
+  });
+
+  return response.json();
+}

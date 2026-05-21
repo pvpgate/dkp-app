@@ -21,6 +21,7 @@ from routes.create_event import router as create_event_router
 from routes.clan_events import router as clan_events_router
 from routes.get_event import router as get_event_router
 from routes.delete_event import router as delete_event_router
+from routes.join_event import router as join_event_router
 
 app = FastAPI()
 
@@ -52,3 +53,4 @@ app.include_router(create_event_router)
 app.include_router(clan_events_router)
 app.include_router(get_event_router)
 app.include_router(delete_event_router)
+app.include_router(join_event_router)

@@ -66,9 +66,26 @@ async def get_event(clan_id: int, event_id: int, data: dict):
         or created_by_telegram_id == user_id
     )
 
+    cur.execute("""
+    SELECT id, status
+    FROM event_participants
+    WHERE event_id = %s
+      AND user_telegram_id = %s
+    """, (
+        event_id,
+        user_id
+    ))
+
+    participation = cur.fetchone()
+
+    is_participant = participation is not None
+    participation_status = participation[1] if participation else None
+
     return {
         "ok": True,
         "can_delete": can_delete,
+        "is_participant": is_participant,
+        "participation_status": participation_status,
         "event": {
             "id": event[0],
             "public_id": event[1],

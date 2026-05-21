@@ -64,10 +64,6 @@ CREATE TABLE IF NOT EXISTS events (
 )
 """)
 
-cur.execute("""
-ALTER TABLE events
-ADD COLUMN IF NOT EXISTS public_id VARCHAR(5) UNIQUE
-""")
 
 cur.execute("""
 CREATE TABLE IF NOT EXISTS dkp_logs (
@@ -79,6 +75,22 @@ CREATE TABLE IF NOT EXISTS dkp_logs (
     amount INTEGER NOT NULL,
     reason TEXT,
     created_at TIMESTAMP DEFAULT NOW()
+)
+""")
+
+cur.execute("""
+CREATE TABLE IF NOT EXISTS event_participants (
+    id SERIAL PRIMARY KEY,
+    event_id INTEGER NOT NULL REFERENCES events(id) ON DELETE CASCADE,
+    clan_id INTEGER NOT NULL REFERENCES clans(id) ON DELETE CASCADE,
+    user_telegram_id BIGINT NOT NULL REFERENCES users(telegram_id),
+    game_nickname TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'pending',
+    screenshot_url TEXT,
+    reviewed_by_telegram_id BIGINT REFERENCES users(telegram_id),
+    reviewed_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE (event_id, user_telegram_id)
 )
 """)
 
