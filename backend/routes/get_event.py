@@ -86,6 +86,7 @@ async def get_event(clan_id: int, event_id: int, data: dict):
         "can_delete": can_delete,
         "is_participant": is_participant,
         "participation_status": participation_status,
+        "current_user_role": current_user_role,
         "event": {
             "id": event[0],
             "public_id": event[1],

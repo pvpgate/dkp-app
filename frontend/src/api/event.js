@@ -69,3 +69,27 @@ export async function getEventParticipants(clanId, eventId, initData) {
 
   return response.json();
 }
+
+export async function processEventParticipant(
+  clanId,
+  eventId,
+  participantId,
+  initData,
+  action
+) {
+  const response = await fetch(
+    `${API_URL}/clans/${clanId}/events/${eventId}/participants/${participantId}/process`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        initData,
+        action,
+      }),
+    }
+  );
+
+  return response.json();
+}

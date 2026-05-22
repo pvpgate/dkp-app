@@ -7,6 +7,7 @@ import {
   joinEvent,
   leaveEvent,
   getEventParticipants,
+  processEventParticipant,
 } from "../api/event";
 
 function EventPage({ initData }) {
@@ -15,12 +16,17 @@ function EventPage({ initData }) {
 
   const [event, setEvent] = useState(null);
   const [canDelete, setCanDelete] = useState(false);
+  const [currentUserRole, setCurrentUserRole] = useState(null);
   const [isParticipant, setIsParticipant] = useState(false);
   const [participationStatus, setParticipationStatus] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deletePublicId, setDeletePublicId] = useState("");
   const [error, setError] = useState("");
+
+  const canManageParticipants =
+    currentUserRole === "leader" ||
+    currentUserRole === "officer";
 
   useEffect(() => {
     if (!initData || !clanId || !eventId) return;
@@ -31,6 +37,7 @@ function EventPage({ initData }) {
       if (eventResult.ok) {
         setEvent(eventResult.event);
         setCanDelete(eventResult.can_delete);
+        setCurrentUserRole(eventResult.current_user_role);
         setIsParticipant(eventResult.is_participant);
         setParticipationStatus(eventResult.participation_status);
       }
@@ -49,6 +56,18 @@ function EventPage({ initData }) {
     loadEvent();
   }, [clanId, eventId, initData]);
 
+  async function reloadParticipants() {
+    const participantsResult = await getEventParticipants(
+      clanId,
+      eventId,
+      initData
+    );
+
+    if (participantsResult.ok) {
+      setParticipants(participantsResult.participants);
+    }
+  }
+
   async function handleJoinEvent() {
     setError("");
 
@@ -62,15 +81,7 @@ function EventPage({ initData }) {
     setIsParticipant(true);
     setParticipationStatus("pending");
 
-    const participantsResult = await getEventParticipants(
-      clanId,
-      eventId,
-      initData
-    );
-
-    if (participantsResult.ok) {
-      setParticipants(participantsResult.participants);
-    }
+    await reloadParticipants();
   }
 
   async function handleLeaveEvent() {
@@ -86,15 +97,35 @@ function EventPage({ initData }) {
     setIsParticipant(false);
     setParticipationStatus(null);
 
-    const participantsResult = await getEventParticipants(
+    await reloadParticipants();
+  }
+
+  async function handleProcessParticipant(participantId, action) {
+    setError("");
+
+    const result = await processEventParticipant(
       clanId,
       eventId,
-      initData
+      participantId,
+      initData,
+      action
     );
 
-    if (participantsResult.ok) {
-      setParticipants(participantsResult.participants);
+    if (!result.ok) {
+      setError(result.error);
+      return;
     }
+
+    setParticipants((prev) =>
+      prev.map((participant) =>
+        participant.id === participantId
+          ? {
+              ...participant,
+              status: result.status,
+            }
+          : participant
+      )
+    );
   }
 
   async function handleDeleteEvent() {
@@ -190,9 +221,41 @@ function EventPage({ initData }) {
               style={{
                 padding: "8px 0",
                 borderBottom: "1px solid #ddd",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
               }}
             >
-              {participant.game_nickname} | {participant.status}
+              <div>
+                {participant.game_nickname} | {participant.status}
+              </div>
+
+              {canManageParticipants &&
+                participant.status === "pending" && (
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <button
+                      onClick={() =>
+                        handleProcessParticipant(
+                          participant.id,
+                          "accept"
+                        )
+                      }
+                    >
+                      Принять
+                    </button>
+
+                    <button
+                      onClick={() =>
+                        handleProcessParticipant(
+                          participant.id,
+                          "reject"
+                        )
+                      }
+                    >
+                      Отклонить
+                    </button>
+                  </div>
+                )}
             </div>
           ))
         )}

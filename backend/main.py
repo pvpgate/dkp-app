@@ -24,6 +24,7 @@ from routes.delete_event import router as delete_event_router
 from routes.join_event import router as join_event_router
 from routes.leave_event import router as leave_event_router
 from routes.event_participants import router as event_participants_router
+from routes.process_event_participant import router as process_event_participant_router
 
 app = FastAPI()
 
@@ -58,3 +59,4 @@ app.include_router(delete_event_router)
 app.include_router(join_event_router)
 app.include_router(leave_event_router)
 app.include_router(event_participants_router)
+app.include_router(process_event_participant_router)
