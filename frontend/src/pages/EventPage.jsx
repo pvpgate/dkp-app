@@ -195,10 +195,13 @@ function EventPage({ initData }) {
             </button>
           )}
 
-          {!event.is_closed && isParticipant && (
-            <button onClick={handleLeaveEvent}>
-              Отменить участие
-            </button>
+          {!event.is_closed &&
+            isParticipant &&
+            (participationStatus === "pending" ||
+              participationStatus === "rejected") && (
+              <button onClick={handleLeaveEvent}>
+                Отменить участие
+              </button>
           )}
 
           {isParticipant && (
