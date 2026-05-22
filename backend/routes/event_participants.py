@@ -15,7 +15,7 @@ async def event_participants(clan_id: int, event_id: int, data: dict):
     user_id = user_data["id"]
 
     cur.execute("""
-    SELECT id
+    SELECT role
     FROM clan_members
     WHERE clan_id = %s
       AND user_telegram_id = %s
@@ -32,20 +32,47 @@ async def event_participants(clan_id: int, event_id: int, data: dict):
             "error": "Вы не состоите в этом клане"
         }
 
-    cur.execute("""
-    SELECT
-        id,
-        game_nickname,
-        status,
-        created_at
-    FROM event_participants
-    WHERE clan_id = %s
-      AND event_id = %s
-    ORDER BY created_at DESC
-    """, (
-        clan_id,
-        event_id
-    ))
+    current_user_role = member[0]
+    can_manage = current_user_role in ["leader", "officer"]
+
+    if can_manage:
+        cur.execute("""
+        SELECT
+            id,
+            game_nickname,
+            status,
+            created_at,
+            user_telegram_id
+        FROM event_participants
+        WHERE clan_id = %s
+          AND event_id = %s
+          AND status IN ('accepted', 'pending')
+        ORDER BY created_at DESC
+        """, (
+            clan_id,
+            event_id
+        ))
+    else:
+        cur.execute("""
+        SELECT
+            id,
+            game_nickname,
+            status,
+            created_at,
+            user_telegram_id
+        FROM event_participants
+        WHERE clan_id = %s
+          AND event_id = %s
+          AND (
+            status = 'accepted'
+            OR user_telegram_id = %s
+          )
+        ORDER BY created_at DESC
+        """, (
+            clan_id,
+            event_id,
+            user_id
+        ))
 
     rows = cur.fetchall()
 
@@ -56,7 +83,8 @@ async def event_participants(clan_id: int, event_id: int, data: dict):
             "id": row[0],
             "game_nickname": row[1],
             "status": row[2],
-            "created_at": str(row[3])
+            "created_at": str(row[3]),
+            "user_telegram_id": row[4],
         })
 
     return {
