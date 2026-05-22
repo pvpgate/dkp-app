@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Layout from "../components/Layout";
-import { getEvent, deleteEvent, joinEvent, leaveEvent } from "../api/event";
+import {
+  getEvent,
+  deleteEvent,
+  joinEvent,
+  leaveEvent,
+  getEventParticipants,
+} from "../api/event";
 
 function EventPage({ initData }) {
   const { clanId, eventId } = useParams();
@@ -11,6 +17,7 @@ function EventPage({ initData }) {
   const [canDelete, setCanDelete] = useState(false);
   const [isParticipant, setIsParticipant] = useState(false);
   const [participationStatus, setParticipationStatus] = useState(null);
+  const [participants, setParticipants] = useState([]);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deletePublicId, setDeletePublicId] = useState("");
   const [error, setError] = useState("");
@@ -19,13 +26,23 @@ function EventPage({ initData }) {
     if (!initData || !clanId || !eventId) return;
 
     async function loadEvent() {
-      const result = await getEvent(clanId, eventId, initData);
+      const eventResult = await getEvent(clanId, eventId, initData);
 
-      if (result.ok) {
-        setEvent(result.event);
-        setCanDelete(result.can_delete);
-        setIsParticipant(result.is_participant);
-        setParticipationStatus(result.participation_status);
+      if (eventResult.ok) {
+        setEvent(eventResult.event);
+        setCanDelete(eventResult.can_delete);
+        setIsParticipant(eventResult.is_participant);
+        setParticipationStatus(eventResult.participation_status);
+      }
+
+      const participantsResult = await getEventParticipants(
+        clanId,
+        eventId,
+        initData
+      );
+
+      if (participantsResult.ok) {
+        setParticipants(participantsResult.participants);
       }
     }
 
@@ -44,6 +61,16 @@ function EventPage({ initData }) {
 
     setIsParticipant(true);
     setParticipationStatus("pending");
+
+    const participantsResult = await getEventParticipants(
+      clanId,
+      eventId,
+      initData
+    );
+
+    if (participantsResult.ok) {
+      setParticipants(participantsResult.participants);
+    }
   }
 
   async function handleLeaveEvent() {
@@ -58,6 +85,16 @@ function EventPage({ initData }) {
 
     setIsParticipant(false);
     setParticipationStatus(null);
+
+    const participantsResult = await getEventParticipants(
+      clanId,
+      eventId,
+      initData
+    );
+
+    if (participantsResult.ok) {
+      setParticipants(participantsResult.participants);
+    }
   }
 
   async function handleDeleteEvent() {
@@ -140,6 +177,26 @@ function EventPage({ initData }) {
           )}
         </div>
       )}
+
+      <div style={{ marginTop: 24 }}>
+        <h2>Участники</h2>
+
+        {participants.length === 0 ? (
+          <p>Участников пока нет</p>
+        ) : (
+          participants.map((participant) => (
+            <div
+              key={participant.id}
+              style={{
+                padding: "8px 0",
+                borderBottom: "1px solid #ddd",
+              }}
+            >
+              {participant.game_nickname} | {participant.status}
+            </div>
+          ))
+        )}
+      </div>
 
       {showDeleteConfirm && event && (
         <div
