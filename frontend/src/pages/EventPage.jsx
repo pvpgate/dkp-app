@@ -224,38 +224,38 @@ function EventPage({ initData }) {
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
+                gap: 12,
               }}
             >
               <div>
                 {participant.game_nickname} | {participant.status}
               </div>
 
-              {canManageParticipants &&
-                participant.status === "pending" && (
-                  <div style={{ display: "flex", gap: 8 }}>
-                    <button
-                      onClick={() =>
-                        handleProcessParticipant(
-                          participant.id,
-                          "accept"
-                        )
-                      }
-                    >
-                      Принять
-                    </button>
+              {canManageParticipants && participant.status === "pending" ? (
+                <div style={{ display: "flex", gap: 8 }}>
+                  <button
+                    onClick={() =>
+                      handleProcessParticipant(participant.id, "accept")
+                    }
+                  >
+                    Принять
+                  </button>
 
-                    <button
-                      onClick={() =>
-                        handleProcessParticipant(
-                          participant.id,
-                          "reject"
-                        )
-                      }
-                    >
-                      Отклонить
-                    </button>
+                  <button
+                    onClick={() =>
+                      handleProcessParticipant(participant.id, "reject")
+                    }
+                  >
+                    Отклонить
+                  </button>
+                </div>
+              ) : (
+                participant.status === "accepted" && (
+                  <div style={{ color: "#777", fontSize: 14 }}>
+                    {new Date(participant.created_at).toLocaleDateString()}
                   </div>
-                )}
+                )
+              )}
             </div>
           ))
         )}
