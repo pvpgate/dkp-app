@@ -113,7 +113,13 @@ function ClanPage({ initData }) {
           marginBottom: 20,
         }}
       >
-        <h1 style={{ margin: 0 }}>
+        <h1
+          style={{
+            margin: 0,
+            fontSize: 20,
+            fontWeight: 600,
+          }}
+        >
           {clan ? clan.name : "Loading..."}
         </h1>
 
