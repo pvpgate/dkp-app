@@ -164,7 +164,7 @@ function ClanPage({ initData }) {
             style={{
               display: "flex",
               gap: 8,
-              marginBottom: 20,
+              marginTop: 12,
               justifyContent: "center",
             }}
           >
