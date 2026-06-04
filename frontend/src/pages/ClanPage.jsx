@@ -147,6 +147,7 @@ function ClanPage({ initData }) {
             borderRadius: 8,
             padding: 12,
             marginTop: 12,
+            marginBottom: 20,
           }}
         >
           <p>
