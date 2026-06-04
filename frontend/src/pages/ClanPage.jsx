@@ -162,10 +162,10 @@ function ClanPage({ initData }) {
 
           <div
             style={{
-              border: "1px solid #ccc",
-              borderRadius: 8,
-              padding: 12,
+              display: "flex",
+              gap: 8,
               marginBottom: 20,
+              justifyContent: "center",
             }}
           >
             <button onClick={handleResetDkp}>
