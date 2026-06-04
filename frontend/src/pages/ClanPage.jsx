@@ -118,9 +118,15 @@ function ClanPage({ initData }) {
         </h1>
 
         {clan?.role === "leader" ? (
-          <button onClick={() => setShowDeleteConfirm(true)}>
-            Удалить клан
-          </button>
+          <div style={{ display: "flex", gap: 8 }}>
+            <button onClick={() => setShowResetDkpConfirm(true)}>
+              Обнулить DKP
+            </button>
+
+            <button onClick={() => setShowDeleteConfirm(true)}>
+              Удалить клан
+            </button>
+          </div>
         ) : (
           <button onClick={() => setShowLeaveConfirm(true)}>
             Покинуть клан
@@ -221,13 +227,6 @@ function ClanPage({ initData }) {
         />
       )}
 
-      {clan?.role === "leader" && (
-        <div style={{ marginTop: 24 }}>
-          <button onClick={() => setShowResetDkpConfirm(true)}>
-            Обнулить DKP
-          </button>
-        </div>
-      )}
 
       {showResetDkpConfirm && clan && (
         <div
