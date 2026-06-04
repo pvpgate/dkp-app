@@ -25,6 +25,7 @@ from routes.join_event import router as join_event_router
 from routes.leave_event import router as leave_event_router
 from routes.event_participants import router as event_participants_router
 from routes.process_event_participant import router as process_event_participant_router
+from routes.reset_clan_dkp import router as reset_clan_dkp_router
 
 app = FastAPI()
 
@@ -60,3 +61,4 @@ app.include_router(join_event_router)
 app.include_router(leave_event_router)
 app.include_router(event_participants_router)
 app.include_router(process_event_participant_router)
+app.include_router(reset_clan_dkp_router)

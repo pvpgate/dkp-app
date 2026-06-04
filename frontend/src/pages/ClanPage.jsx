@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { getClan } from "../api/getClan";
 import { deleteClan } from "../api/deleteClan";
 import { leaveClan } from "../api/leaveClan";
+import { resetClanDkp } from "../api/resetClanDkp";
 import Layout from "../components/Layout";
 import ClanMembers from "../components/ClanMembers";
 import ClanRequests from "../components/ClanRequests";
@@ -18,6 +19,8 @@ function ClanPage({ initData }) {
   const [deleteName, setDeleteName] = useState("");
   const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
   const [leaveName, setLeaveName] = useState("");
+  const [showResetDkpConfirm, setShowResetDkpConfirm] = useState(false);
+  const [resetDkpText, setResetDkpText] = useState("");
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "members");
 
@@ -64,6 +67,25 @@ function ClanPage({ initData }) {
     navigate("/");
   }
 
+  async function handleResetDkp() {
+    setError("");
+
+    const result = await resetClanDkp(
+      clanId,
+      initData,
+      resetDkpText
+    );
+
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
+
+    setShowResetDkpConfirm(false);
+    setResetDkpText("");
+    setActiveTab("members");
+  }
+
   return (
     <Layout>
       <div
@@ -104,7 +126,6 @@ function ClanPage({ initData }) {
             Покинуть клан
           </button>
         )}
-
       </div>
 
       {showDeleteConfirm && clan && (
@@ -198,6 +219,61 @@ function ClanPage({ initData }) {
           clanId={clanId}
           initData={initData}
         />
+      )}
+
+      {clan?.role === "leader" && (
+        <div style={{ marginTop: 24 }}>
+          <button onClick={() => setShowResetDkpConfirm(true)}>
+            Обнулить DKP
+          </button>
+        </div>
+      )}
+
+      {showResetDkpConfirm && clan && (
+        <div
+          style={{
+            border: "1px solid #ccc",
+            borderRadius: 8,
+            padding: 12,
+            marginTop: 12,
+          }}
+        >
+          <p>
+            Вы уверены что хотите обнулить DKP всех участников клана? Для
+            подтверждения напишите DELETE-ALL-DKP.
+          </p>
+
+          <input
+            value={resetDkpText}
+            onChange={(e) => setResetDkpText(e.target.value)}
+            placeholder="DELETE-ALL-DKP"
+          />
+
+          <div
+            style={{
+              display: "flex",
+              gap: 8,
+              marginTop: 12,
+              justifyContent: "center",
+            }}
+          >
+            <button onClick={handleResetDkp}>
+              Удалить все DKP
+            </button>
+
+            <button
+              onClick={() => {
+                setShowResetDkpConfirm(false);
+                setResetDkpText("");
+                setError("");
+              }}
+            >
+              Отмена
+            </button>
+          </div>
+
+          {error && <p style={{ color: "red" }}>{error}</p>}
+        </div>
       )}
 
       {showLeaveConfirm && clan && (
