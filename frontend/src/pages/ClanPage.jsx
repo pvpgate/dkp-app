@@ -140,6 +140,53 @@ function ClanPage({ initData }) {
         )}
       </div>
 
+      {showResetDkpConfirm && clan && (
+        <div
+          style={{
+            border: "1px solid #ccc",
+            borderRadius: 8,
+            padding: 12,
+            marginTop: 12,
+          }}
+        >
+          <p>
+            Вы уверены что хотите обнулить DKP всех участников клана? Для
+            подтверждения напишите DELETE-ALL-DKP.
+          </p>
+
+          <input
+            value={resetDkpText}
+            onChange={(e) => setResetDkpText(e.target.value)}
+            placeholder="DELETE-ALL-DKP"
+          />
+
+          <div
+            style={{
+              display: "flex",
+              gap: 8,
+              marginTop: 12,
+              justifyContent: "center",
+            }}
+          >
+            <button onClick={handleResetDkp}>
+              Удалить все DKP
+            </button>
+
+            <button
+              onClick={() => {
+                setShowResetDkpConfirm(false);
+                setResetDkpText("");
+                setError("");
+              }}
+            >
+              Отмена
+            </button>
+          </div>
+
+          {error && <p style={{ color: "red" }}>{error}</p>}
+        </div>
+      )}
+
       {showDeleteConfirm && clan && (
         <div
           style={{
@@ -233,53 +280,6 @@ function ClanPage({ initData }) {
         />
       )}
 
-
-      {showResetDkpConfirm && clan && (
-        <div
-          style={{
-            border: "1px solid #ccc",
-            borderRadius: 8,
-            padding: 12,
-            marginTop: 12,
-          }}
-        >
-          <p>
-            Вы уверены что хотите обнулить DKP всех участников клана? Для
-            подтверждения напишите DELETE-ALL-DKP.
-          </p>
-
-          <input
-            value={resetDkpText}
-            onChange={(e) => setResetDkpText(e.target.value)}
-            placeholder="DELETE-ALL-DKP"
-          />
-
-          <div
-            style={{
-              display: "flex",
-              gap: 8,
-              marginTop: 12,
-              justifyContent: "center",
-            }}
-          >
-            <button onClick={handleResetDkp}>
-              Удалить все DKP
-            </button>
-
-            <button
-              onClick={() => {
-                setShowResetDkpConfirm(false);
-                setResetDkpText("");
-                setError("");
-              }}
-            >
-              Отмена
-            </button>
-          </div>
-
-          {error && <p style={{ color: "red" }}>{error}</p>}
-        </div>
-      )}
 
       {showLeaveConfirm && clan && (
         <div
