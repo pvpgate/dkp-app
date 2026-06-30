@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from db import conn
 
 from routes.auth import router as auth_router
 from routes.create_clan import router as create_clan_router
@@ -28,6 +29,26 @@ from routes.process_event_participant import router as process_event_participant
 from routes.reset_clan_dkp import router as reset_clan_dkp_router
 
 app = FastAPI()
+
+
+@app.middleware("http")
+async def rollback_on_error(request, call_next):
+    try:
+        conn.rollback()
+    except Exception:
+        pass
+
+    try:
+        response = await call_next(request)
+
+        if response.status_code >= 500:
+            conn.rollback()
+
+        return response
+    except Exception:
+        conn.rollback()
+        raise
+
 
 app.add_middleware(
     CORSMiddleware,
